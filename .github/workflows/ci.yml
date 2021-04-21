@@ -1,0 +1,60 @@
+name: Continuos Integration
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+      - name: Install dependencies 📦
+        uses: bahmutov/npm-install@v1
+      - name: Check types 🧩
+        run: npm run type-check
+      - name: Run XO 🧹
+        run: npm run lint
+
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+      - name: Install dependencies 📦
+        uses: bahmutov/npm-install@v1
+      - name: Run unit tests 🧪
+        run: npm t -- --coverage --runInBand
+      - name: Upload code coverage ⬆️
+        uses: actions/upload-artifact@v2
+        with:
+          name: unit-coverage
+          path: coverage
+
+  e2e-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+      - name: Run Cypress tests 🌲
+        uses: cypress-io/github-action@v2
+        with:
+          build: npm run build
+          start: npm start
+          wait-on: http://localhost:3000
+        env:
+          NODE_ENV: test
+      - name: Upload screenshots and videos on failure ⬆️
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: Cypress screenshots and videos
+          path: |
+            cypress/screenshots
+            cypress/videos
+      - name: Show code coverage 📊
+        run: npx nyc report
+      - name: Upload code coverage ⬆️
+        uses: actions/upload-artifact@v2
+        with:
+          name: e2e-coverage
+          path: coverage

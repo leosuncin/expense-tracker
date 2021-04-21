@@ -1,0 +1,47 @@
+{
+  "space": true,
+  "prettier": true,
+  "envs": ["es2020", "node", "browser"],
+  "overrides": [
+    {
+      "files": [
+        "__tests__/**/*.ts",
+        "__tests__/**/*.tsx",
+        "src/**/*.spec.ts",
+        "src/**/*.spec.tsx"
+      ],
+      "extends": [
+        "plugin:jest/recommended",
+        "plugin:jest-formatting/strict",
+        "plugin:testing-library/react"
+      ]
+    },
+    {
+      "files": ["cypress/**/*.js", "cypress/**/*.ts", "cypress/**/*.tsx"],
+      "extends": ["plugin:cypress/recommended"]
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      },
+      "plugins": ["deprecation"],
+      "rules": {
+        "deprecation/deprecation": "warn"
+      }
+    }
+  ],
+  "rules": {
+    "unicorn/filename-case": [
+      "error",
+      {
+        "cases": {
+          "camelCase": true,
+          "pascalCase": true
+        },
+        "ignore": ["next-env.d.ts", "__coverage__.ts"]
+      }
+    ],
+    "unicorn/no-array-reduce": "off"
+  }
+}

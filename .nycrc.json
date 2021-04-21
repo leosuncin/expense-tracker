@@ -1,0 +1,4 @@
+{
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "exclude": ["pages/api/__coverage__.js"]
+}

@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["**/*.ts"],
+  "exclude": ["../node_modules"],
+  "compilerOptions": {
+    "lib": ["es2015", "dom"],
+    "types": ["node", "cypress", "@testing-library/cypress"],
+    "isolatedModules": false,
+    "allowJs": true,
+    "noEmit": true
+  }
+}
