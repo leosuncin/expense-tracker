@@ -1151,6 +1151,11 @@
   dependencies:
     "@hapi/hoek" "^9.0.0"
 
+"@hookform/resolvers@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-2.4.0.tgz#3b454463fbb5e7a0de4da029fa34e677f32d8d8d"
+  integrity sha512-KiHc7Uwd2IJMvPTMQ9vQxfss2ulq2gRYL/HYZ90qiTs+07UgGWCikiIvE2pKjjGVltEYjq5eR8x0ITmoyEjGxQ==
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.npmjs.org/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz"
@@ -7355,9 +7360,9 @@ next-connect@^0.10.1:
   dependencies:
     trouter "^3.1.0"
 
-next-iron-session@^4.1.13:
+next-iron-session@^4.1.0:
   version "4.1.13"
-  resolved "https://registry.npmjs.org/next-iron-session/-/next-iron-session-4.1.13.tgz"
+  resolved "https://registry.yarnpkg.com/next-iron-session/-/next-iron-session-4.1.13.tgz#fac2a40c318d0717069a23e2107aa115be361f2c"
   integrity sha512-CHYeVtpdHDy4OjH1QppR0n2tF4eEp0hFalQIzhqNEPfG4AfbmqiVGZIVTipJRVc7YfCOS3MZx8B5/yKbM8gA7Q==
   dependencies:
     "@types/cookie" "^0.4.0"
@@ -8408,6 +8413,11 @@ react-dom@^17.0.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     scheduler "^0.20.2"
+
+react-hook-form@^7.2.0:
+  version "7.2.3"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.2.3.tgz#a4be9214cab3a6e6358f95d342da2e7ded37e3f0"
+  integrity sha512-ki83pkQH/NK6HbSWb4zHLD78s8nh6OW2j4GC5kAjhB2C3yiiVGvNAvybgAfnsXBbx+xb9mPgSpRRVOQUbss+JQ==
 
 react-is@16.13.1, react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
