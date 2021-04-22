@@ -1,14 +1,16 @@
 import connect from 'next-connect';
 
+import { RegisterUser, registerSchema } from '@app/features/auth/authSchemas';
 import { User } from '@app/features/auth/User';
 import {
   ApiHandler,
   databaseMiddleware,
   errorMiddleware,
   sessionMiddleware,
+  validationMiddleware,
 } from '@app/utils/middleware';
 
-const registerHandler: ApiHandler = async (request, response) => {
+const registerHandler: ApiHandler<RegisterUser> = async (request, response) => {
   const user = new User(request.body);
 
   await user.save();
@@ -20,5 +22,6 @@ const registerHandler: ApiHandler = async (request, response) => {
 
 export default connect({ onError: errorMiddleware })
   .use(databaseMiddleware)
+  .use(validationMiddleware(registerSchema))
   .use(sessionMiddleware)
   .post(registerHandler);

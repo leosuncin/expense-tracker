@@ -1,5 +1,7 @@
 import { AsyncThunkPayloadCreator } from '@reduxjs/toolkit';
 
+import type { LoginUser, RegisterUser } from '@app/features/auth/authSchemas';
+
 export type User = {
   name: string;
   email: string;
@@ -10,20 +12,10 @@ export type User = {
   updatedAt: string;
 };
 
-export type RegisterUser = {
-  name: string;
-  email: string;
-  password: string;
-};
-
-export type LoginUser = {
-  email: string;
-  password: string;
-};
-
 export type ErrorResponse = {
   message: string;
   statusCode: number;
+  errors?: string[];
 };
 
 export const registerUser: AsyncThunkPayloadCreator<
