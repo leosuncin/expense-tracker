@@ -3330,6 +3330,11 @@ confusing-browser-globals@1.0.10:
   resolved "https://registry.npmjs.org/confusing-browser-globals/-/confusing-browser-globals-1.0.10.tgz"
   integrity sha512-gNld/3lySHwuhaVluJUKLePYirM3QNCKzVxqAdhJII9/WXKVX5PURzMVJspS1jTslSqjeuG4KMVTSouit5YPHA==
 
+connected-next-router@^4.0.0:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/connected-next-router/-/connected-next-router-4.0.1.tgz#50f9a2a1763cb2e19864e3b92a491cf98ced94fd"
+  integrity sha512-Jggb3edu2rijGvYnYO+agiyggpoTFlmgL6Hp9OLEGT7OYWGtnGrHR+c13TYG9eARHpo7FLoRDcCdhtdEhMeSog==
+
 console-browserify@^1.1.0:
   version "1.2.0"
   resolved "https://registry.npmjs.org/console-browserify/-/console-browserify-1.2.0.tgz"

@@ -38,6 +38,7 @@
     "@hookform/resolvers": "^2.4.0",
     "@reduxjs/toolkit": "^1.5.0",
     "bcryptjs": "^2.4.3",
+    "connected-next-router": "^4.0.0",
     "mongoose": "^5.12.5",
     "mongoose-unique-validator": "^2.0.3",
     "next": "^10.1.0",

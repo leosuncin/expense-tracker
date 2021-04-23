@@ -1,5 +1,7 @@
 import { AsyncThunkPayloadCreator } from '@reduxjs/toolkit';
+import { replace } from 'connected-next-router';
 
+import { AppDispatch } from '@app/app/store';
 import type { LoginUser, RegisterUser } from '@app/features/auth/authSchemas';
 
 export type User = {
@@ -21,7 +23,7 @@ export type ErrorResponse = {
 export const registerUser: AsyncThunkPayloadCreator<
   User,
   RegisterUser,
-  { rejectValue: string }
+  { rejectValue: string; dispatch: AppDispatch }
 > = async (body, thunkApi) => {
   const response = await fetch('/api/auth/register', {
     method: 'POST',
@@ -37,13 +39,15 @@ export const registerUser: AsyncThunkPayloadCreator<
     return thunkApi.rejectWithValue(error.message);
   }
 
+  thunkApi.dispatch(replace('/'));
+
   return response.json();
 };
 
 export const loginUser: AsyncThunkPayloadCreator<
   User,
   LoginUser,
-  { rejectValue: string }
+  { rejectValue: string; dispatch: AppDispatch }
 > = async (body, thunkApi) => {
   const response = await fetch('/api/auth/login', {
     method: 'POST',
@@ -58,6 +62,8 @@ export const loginUser: AsyncThunkPayloadCreator<
 
     return thunkApi.rejectWithValue(error.message);
   }
+
+  thunkApi.dispatch(replace('/'));
 
   return response.json();
 };

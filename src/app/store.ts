@@ -1,11 +1,24 @@
-import { Action, ThunkAction, configureStore } from '@reduxjs/toolkit';
+import {
+  Action,
+  ThunkAction,
+  configureStore,
+  getDefaultMiddleware,
+} from '@reduxjs/toolkit';
+import { createRouterMiddleware, routerReducer } from 'connected-next-router';
 
 import authReducer from '@app/features/auth/authSlice';
 import counterReducer from '@app/features/counter/counterSlice';
 
+const routerMiddleware = createRouterMiddleware();
+
 export function makeStore() {
   return configureStore({
-    reducer: { counter: counterReducer, auth: authReducer },
+    reducer: {
+      counter: counterReducer,
+      auth: authReducer,
+      router: routerReducer,
+    },
+    middleware: [...getDefaultMiddleware(), routerMiddleware],
   });
 }
 
