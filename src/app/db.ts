@@ -15,7 +15,7 @@ export function connectDB(): Promise<typeof mongoose> | void {
   if (isConnected) return;
 
   return mongoose.connect(
-    process.env.MONGODB_URL ?? 'mongodb://localhost/admin',
+    process.env.MONGO_URL ?? 'mongodb://localhost/admin',
     {
       useNewUrlParser: true,
       useCreateIndex: true,

@@ -5,5 +5,6 @@ declare namespace NodeJS {
   export interface ProcessEnv {
     readonly PORT: string;
     readonly SECRET_COOKIE_PASSWORD: string;
+    readonly MONGO_URL: string;
   }
 }
