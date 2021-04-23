@@ -1,35 +1,24 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { enableFetchMocks } from 'jest-fetch-mock';
-import { Provider } from 'react-redux';
+import { createRouter } from 'next/router';
 
 import { makeStore } from '@app/app/store';
 import { registerFactory, userFactory } from '@app/features/auth/authFactories';
 import RegisterForm from '@app/features/auth/RegisterForm';
+import { render } from '@app/utils/testUtils';
 
 enableFetchMocks();
 
 describe('<RegisterForm />', () => {
   it('renders the component', () => {
-    const store = makeStore();
-
-    render(
-      <Provider store={store}>
-        <RegisterForm />
-      </Provider>,
-    );
+    render(<RegisterForm />);
 
     expect(screen.queryAllByRole('alert')).toHaveLength(0);
   });
 
   it('shows the validation errors', async () => {
-    const store = makeStore();
-
-    render(
-      <Provider store={store}>
-        <RegisterForm />
-      </Provider>,
-    );
+    render(<RegisterForm />);
 
     user.click(screen.getByRole('button', { name: /register/i }));
 
@@ -60,6 +49,15 @@ describe('<RegisterForm />', () => {
 
   it('submit the form', async () => {
     const store = makeStore();
+    const router = createRouter('/login', {}, '/login', {
+      subscription: jest.fn().mockImplementation(Promise.resolve),
+      initialProps: {},
+      pageLoader: jest.fn(),
+      Component: jest.fn(),
+      App: jest.fn(),
+      wrapApp: jest.fn(),
+      isFallback: false,
+    });
     const data = registerFactory.build();
     const result = userFactory.build({
       name: data.name,
@@ -67,12 +65,9 @@ describe('<RegisterForm />', () => {
       isAdmin: false,
     });
 
+    const spyReplace = jest.spyOn(router, 'replace');
     fetchMock.mockResponseOnce(JSON.stringify(result), { status: 201 });
-    render(
-      <Provider store={store}>
-        <RegisterForm />
-      </Provider>,
-    );
+    render(<RegisterForm />, store, router);
 
     user.type(screen.getByLabelText(/name/i), data.name);
     user.type(screen.getByLabelText(/email/i), data.email);
@@ -90,6 +85,7 @@ describe('<RegisterForm />', () => {
         user: result,
       }),
     );
+    expect(spyReplace).toHaveBeenCalledWith('/', undefined, undefined);
   });
 
   it('shows the error', async () => {
@@ -104,11 +100,7 @@ describe('<RegisterForm />', () => {
       }),
       { status: 409 },
     );
-    render(
-      <Provider store={store}>
-        <RegisterForm />
-      </Provider>,
-    );
+    render(<RegisterForm />, store);
 
     user.type(screen.getByLabelText(/name/i), data.name);
     user.type(screen.getByLabelText(/email/i), data.email);

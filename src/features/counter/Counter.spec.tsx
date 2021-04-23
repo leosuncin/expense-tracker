@@ -1,9 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
-import { Provider } from 'react-redux';
 
-import { makeStore } from '@app/app/store';
 import Counter from '@app/features/counter/Counter';
+import { render } from '@app/utils/testUtils';
 
 jest.mock('@app/features/counter/counterApi', () => ({
   fetchCount: async (amount: number): Promise<{ data: number }> =>
@@ -16,25 +15,13 @@ jest.mock('@app/features/counter/counterApi', () => ({
 
 describe('<Counter />', () => {
   it('renders the component', () => {
-    const store = makeStore();
-
-    render(
-      <Provider store={store}>
-        <Counter />
-      </Provider>,
-    );
+    render(<Counter />);
 
     expect(screen.getByText('0')).toBeInTheDocument();
   });
 
   it('decrements the value', () => {
-    const store = makeStore();
-
-    render(
-      <Provider store={store}>
-        <Counter />
-      </Provider>,
-    );
+    render(<Counter />);
 
     user.click(screen.getByRole('button', { name: /decrement value/i }));
 
@@ -42,13 +29,7 @@ describe('<Counter />', () => {
   });
 
   it('increments the value', () => {
-    const store = makeStore();
-
-    render(
-      <Provider store={store}>
-        <Counter />
-      </Provider>,
-    );
+    render(<Counter />);
 
     user.click(screen.getByRole('button', { name: /increment value/i }));
 
@@ -56,13 +37,7 @@ describe('<Counter />', () => {
   });
 
   it('increments by amount', () => {
-    const store = makeStore();
-
-    render(
-      <Provider store={store}>
-        <Counter />
-      </Provider>,
-    );
+    render(<Counter />);
 
     user.type(screen.getByLabelText(/set increment amount/i), '{backspace}5');
     user.click(screen.getByRole('button', { name: /add amount/i }));
@@ -71,13 +46,7 @@ describe('<Counter />', () => {
   });
 
   it('increments async', async () => {
-    const store = makeStore();
-
-    render(
-      <Provider store={store}>
-        <Counter />
-      </Provider>,
-    );
+    render(<Counter />);
 
     user.type(screen.getByLabelText(/set increment amount/i), '{backspace}3');
     user.click(screen.getByRole('button', { name: /add async/i }));
@@ -86,13 +55,7 @@ describe('<Counter />', () => {
   });
 
   it('increments if amount is odd', async () => {
-    const store = makeStore();
-
-    render(
-      <Provider store={store}>
-        <Counter />
-      </Provider>,
-    );
+    render(<Counter />);
 
     user.click(screen.getByRole('button', { name: /add if odd/i }));
 

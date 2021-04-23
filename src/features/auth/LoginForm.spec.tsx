@@ -1,35 +1,24 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { enableFetchMocks } from 'jest-fetch-mock';
-import { Provider } from 'react-redux';
+import { createRouter } from 'next/router';
 
 import { makeStore } from '@app/app/store';
 import { loginFactory, userFactory } from '@app/features/auth/authFactories';
 import LoginForm from '@app/features/auth/LoginForm';
+import { render } from '@app/utils/testUtils';
 
 enableFetchMocks();
 
 describe('<LoginForm />', () => {
   it('renders the component', () => {
-    const store = makeStore();
-
-    render(
-      <Provider store={store}>
-        <LoginForm />
-      </Provider>,
-    );
+    render(<LoginForm />);
 
     expect(screen.queryAllByRole('alert')).toHaveLength(0);
   });
 
   it('shows the validation errors', async () => {
-    const store = makeStore();
-
-    render(
-      <Provider store={store}>
-        <LoginForm />
-      </Provider>,
-    );
+    render(<LoginForm />);
 
     user.click(screen.getByRole('button', { name: /login/i }));
 
@@ -53,18 +42,24 @@ describe('<LoginForm />', () => {
 
   it('submit the form', async () => {
     const store = makeStore();
+    const router = createRouter('/login', {}, '/login', {
+      subscription: jest.fn().mockImplementation(Promise.resolve),
+      initialProps: {},
+      pageLoader: jest.fn(),
+      Component: jest.fn(),
+      App: jest.fn(),
+      wrapApp: jest.fn(),
+      isFallback: false,
+    });
     const data = loginFactory.build();
     const result = userFactory.build({
       email: data.email,
       isAdmin: false,
     });
 
+    const spyReplace = jest.spyOn(router, 'replace');
     fetchMock.mockResponseOnce(JSON.stringify(result), { status: 201 });
-    render(
-      <Provider store={store}>
-        <LoginForm />
-      </Provider>,
-    );
+    render(<LoginForm />, store, router);
 
     user.type(screen.getByLabelText(/email/i), data.email);
     user.type(screen.getByLabelText(/password/i), data.password);
@@ -81,6 +76,7 @@ describe('<LoginForm />', () => {
         user: result,
       }),
     );
+    expect(spyReplace).toHaveBeenCalledWith('/', undefined, undefined);
   });
 
   it('shows the error', async () => {
@@ -94,11 +90,7 @@ describe('<LoginForm />', () => {
       }),
       { status: 401 },
     );
-    render(
-      <Provider store={store}>
-        <LoginForm />
-      </Provider>,
-    );
+    render(<LoginForm />, store);
 
     user.type(screen.getByLabelText(/email/i), data.email);
     user.type(screen.getByLabelText(/password/i), data.password);
