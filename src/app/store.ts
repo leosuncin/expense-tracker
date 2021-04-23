@@ -1,6 +1,8 @@
 import {
   Action,
+  AnyAction,
   ThunkAction,
+  ThunkDispatch,
   configureStore,
   getDefaultMiddleware,
 } from '@reduxjs/toolkit';
@@ -26,7 +28,9 @@ const store = makeStore();
 
 export type AppState = ReturnType<typeof store.getState>;
 
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatch = ThunkDispatch<AppState, null, AnyAction> &
+  ThunkDispatch<AppState, undefined, AnyAction> &
+  ThunkDispatch<AppDispatch, typeof routerMiddleware, AnyAction>;
 
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
