@@ -3,6 +3,7 @@ import { replace } from 'connected-next-router';
 
 import { AppDispatch } from '@app/app/store';
 import type { LoginUser, RegisterUser } from '@app/features/auth/authSchemas';
+import type { ErrorResponse } from '@app/utils/middleware';
 
 export type User = {
   name: string;
@@ -12,12 +13,6 @@ export type User = {
   __v: number;
   createdAt: string;
   updatedAt: string;
-};
-
-export type ErrorResponse = {
-  message: string;
-  statusCode: number;
-  errors?: string[];
 };
 
 export const registerUser: AsyncThunkPayloadCreator<

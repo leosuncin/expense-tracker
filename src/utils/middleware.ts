@@ -16,6 +16,12 @@ export type ApiHandler<Schema = any, Result = any> = (
   response: NextApiResponse<Result>,
 ) => void | Promise<void>;
 
+export interface ErrorResponse {
+  message: string;
+  statusCode: number;
+  errors?: string[];
+}
+
 export async function databaseMiddleware(
   _: NextApiRequest,
   __: NextApiResponse,
@@ -29,31 +35,46 @@ export async function databaseMiddleware(
   }
 }
 
-export async function errorMiddleware(
+export function errorMiddleware(
   error: unknown,
   _: NextApiRequest,
   response: NextApiResponse,
 ) {
+  let status = 501;
+  let errorResponse: ErrorResponse = {
+    message: 'Error',
+    statusCode: status,
+  };
+
+  if (error instanceof Error) {
+    status = 500;
+    errorResponse = {
+      message: error.message,
+      statusCode: status,
+    };
+  }
+
   if (error instanceof ZodError) {
-    response.status(422).json({
+    status = 422;
+    errorResponse = {
       message: 'Validation error',
-      statusCode: 422,
+      statusCode: status,
       errors: error.errors.map((error) => error.message),
-    });
-  } else if (error instanceof MongooseError.ValidationError) {
-    response.status(409).json({
+    };
+  }
+
+  if (error instanceof MongooseError.ValidationError) {
+    status = 409;
+    errorResponse = {
       message: 'Duplicate data: is already register',
-      statusCode: 409,
+      statusCode: status,
       errors: Object.entries<Error>(error.errors).map(
         ([path, error]) => path + ' ' + error.message,
       ),
-    });
-  } else if (error instanceof Error) {
-    response.status(500).json({
-      message: error.message,
-      statusCode: 500,
-    });
+    };
   }
+
+  response.status(status).json(errorResponse);
 }
 
 export const sessionMiddleware: (
