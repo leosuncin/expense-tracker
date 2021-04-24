@@ -16,7 +16,7 @@ export const registerFactory = Factory.Sync.makeFactory<RegisterUser>({
 });
 
 export const userFactory = Factory.Sync.makeFactory<User>({
-  _id: Factory.each(() => faker.datatype.uuid()),
+  _id: Factory.each(() => faker.datatype.hexaDecimal(24)),
   __v: 0,
   name: Factory.each(() => faker.name.findName()),
   email: Factory.each(() => faker.internet.email().toLowerCase()),
