@@ -7,6 +7,10 @@
     "types": ["node", "cypress", "@testing-library/cypress"],
     "isolatedModules": false,
     "allowJs": true,
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["../src/*"]
+    }
   }
 }
