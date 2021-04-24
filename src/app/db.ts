@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unassigned-import */
 import '@app/features/auth/User';
 
-import mongoose, { STATES } from 'mongoose';
+import mongoose from 'mongoose';
 
 /**
  * Connect to MongoDB.
@@ -10,23 +10,21 @@ import mongoose, { STATES } from 'mongoose';
  * @returns Promise<typeof mongoose>
  */
 export function connectDB(): Promise<typeof mongoose> | void {
-  const isConnected = mongoose.connection.readyState === STATES.connected;
+  const isConnected =
+    mongoose.connection.readyState === mongoose.STATES.connected;
 
   if (isConnected) return;
 
-  return mongoose.connect(
-    process.env.MONGO_URL ?? 'mongodb://localhost/admin',
-    {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-      // Buffering means mongoose will queue up operations if it gets
-      // disconnected from MongoDB and send them when it reconnects.
-      // With serverless, better to fail fast if not connected.
-      bufferCommands: false, // Disable mongoose buffering
-      bufferMaxEntries: 0, // And MongoDB driver buffering
-    },
-  );
+  return mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    // Buffering means mongoose will queue up operations if it gets
+    // disconnected from MongoDB and send them when it reconnects.
+    // With serverless, better to fail fast if not connected.
+    bufferCommands: false, // Disable mongoose buffering
+    bufferMaxEntries: 0, // And MongoDB driver buffering
+  });
 }
 
 /**
@@ -35,7 +33,8 @@ export function connectDB(): Promise<typeof mongoose> | void {
  * @returns Promise<void>
  */
 export function disconnectDB(): Promise<void> | void {
-  const isDisconnected = mongoose.connection.readyState === STATES.disconnected;
+  const isDisconnected =
+    mongoose.connection.readyState === mongoose.STATES.disconnected;
 
   if (isDisconnected) return;
 
