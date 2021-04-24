@@ -74,6 +74,8 @@ export function errorMiddleware(
     };
   }
 
+  if (status >= 500) console.error(errorResponse);
+
   response.status(status).json(errorResponse);
 }
 
