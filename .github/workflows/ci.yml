@@ -17,13 +17,24 @@ jobs:
 
   unit-test:
     runs-on: ubuntu-latest
+    env:
+      CYPRESS_INSTALL_BINARY: 0
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v2
+      - name: Cache MongoDB memory server binary 📦
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/mongodb-binaries
+            node_modules/.cache/mongodb-memory-server/mongodb-binaries
+          key: ${{ runner.os }}-mongodb-memory-server-${{ hashFiles('**/jest-mongodb-config.js') }}
       - name: Install dependencies 📦
         uses: bahmutov/npm-install@v1
       - name: Run unit tests 🧪
         run: npm t -- --coverage --runInBand
+        env:
+          SECRET_COOKIE_PASSWORD: this-is-not-a-secret
       - name: Upload code coverage ⬆️
         uses: actions/upload-artifact@v2
         with:
