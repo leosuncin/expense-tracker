@@ -15,7 +15,10 @@ describe('[POST] /api/auth/login', () => {
   let server: http.Server;
 
   beforeAll(async () => {
-    await fixtures.connect(process.env.MONGO_URL);
+    await fixtures.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     await fixtures.unload();
     await fixtures.load();
     await fixtures.disconnect();
