@@ -43,9 +43,22 @@ jobs:
 
   e2e-test:
     runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: healthcheck/mongo
+        ports:
+          - '27017:27017'
+    env:
+      MONGOMS_DISABLE_POSTINSTALL: 1
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v2
+      - name: Cache Next.js build
+        uses: actions/cache@v2
+        with:
+          path: .next
+          key: ${{ runner.os }}-next-build-${{ hashFiles('**/next.config.js') }}
+          restore-keys: ${{ runner.os }}-next-build-
       - name: Run Cypress tests 🌲
         uses: cypress-io/github-action@v2
         with:
@@ -54,6 +67,8 @@ jobs:
           wait-on: http://localhost:3000
         env:
           NODE_ENV: test
+          MONGO_URL: mongodb://localhost:${{ job.services.mongodb.ports[27017] }}/admin
+          SECRET_COOKIE_PASSWORD: this-is-not-a-secret
       - name: Upload screenshots and videos on failure ⬆️
         uses: actions/upload-artifact@v2
         if: failure()
