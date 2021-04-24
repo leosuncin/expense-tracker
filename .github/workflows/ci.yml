@@ -34,7 +34,7 @@ jobs:
       - name: Run unit tests 🧪
         run: npm t -- --coverage --runInBand
         env:
-          SECRET_COOKIE_PASSWORD: this-is-not-a-secret
+          SECRET_COOKIE_PASSWORD: this-is-not-a-secret-but-a-large-sentence
       - name: Upload code coverage ⬆️
         uses: actions/upload-artifact@v2
         with:
@@ -68,7 +68,7 @@ jobs:
         env:
           NODE_ENV: test
           MONGO_URL: mongodb://localhost:${{ job.services.mongodb.ports[27017] }}/admin
-          SECRET_COOKIE_PASSWORD: this-is-not-a-secret
+          SECRET_COOKIE_PASSWORD: this-is-not-a-secret-but-a-large-sentence
       - name: Upload screenshots and videos on failure ⬆️
         uses: actions/upload-artifact@v2
         if: failure()
