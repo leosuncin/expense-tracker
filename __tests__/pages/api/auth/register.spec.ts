@@ -1,5 +1,6 @@
 import http from 'http';
 
+import Fixtures from 'node-mongodb-fixtures';
 import supertest from 'supertest';
 
 import { disconnectDB } from '@app/app/db';
@@ -8,9 +9,17 @@ import registerHandler from '@app/pages/api/auth/register';
 import { createServer } from '@app/utils/testUtils';
 
 jest.setTimeout(10e3);
+const fixtures = new Fixtures({ mute: true, filter: 'users.*' });
 
 describe('[POST] /api/auth/register', () => {
   let server: http.Server;
+
+  beforeAll(async () => {
+    await fixtures.connect(process.env.MONGO_URL);
+    await fixtures.unload();
+    await fixtures.load();
+    await fixtures.disconnect();
+  });
 
   beforeEach(async () => {
     server = createServer(registerHandler);
@@ -72,5 +81,24 @@ describe('[POST] /api/auth/register', () => {
       message: 'Validation error',
       statusCode: 422,
     });
+  });
+
+  it('fails to register a duplicate user', async () => {
+    const body = registerFactory.build({ email: 'armando@martin.me' });
+    const result = await supertest(server)
+      .post('/api/auth/register')
+      .send(body)
+      .expect(409)
+      .expect('Content-Type', /json/);
+
+    expect(result.body).toMatchInlineSnapshot(`
+      Object {
+        "errors": Array [
+          "email is already taken",
+        ],
+        "message": "Duplicate data: is already register",
+        "statusCode": 409,
+      }
+    `);
   });
 });

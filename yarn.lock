@@ -1711,6 +1711,13 @@
     "@types/mongodb" "*"
     "@types/node" "*"
 
+"@types/node-mongodb-fixtures@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@types/node-mongodb-fixtures/-/node-mongodb-fixtures-3.2.0.tgz#208e4c6d1b18a6c11ecb1790034f2234b33e3a83"
+  integrity sha512-4AQuzh2mlRIRmSpFM+VtDY+KiFZjms/d1OT4bQK1TsM56urZn0eLGdQsRS/T0FhPsvTWSAoXbpjcIvwhaM1fNg==
+  dependencies:
+    "@types/mongodb" "*"
+
 "@types/node@*", "@types/node@^14.14.0", "@types/node@^14.14.31":
   version "14.14.41"
   resolved "https://registry.npmjs.org/@types/node/-/node-14.14.41.tgz"
@@ -7426,7 +7433,7 @@ mongodb-memory-server@6.9.6:
   dependencies:
     mongodb-memory-server-core "6.9.6"
 
-mongodb@3.6.6, mongodb@^3.6.2:
+mongodb@3.6.6, mongodb@^3.6.2, mongodb@^3.6.3:
   version "3.6.6"
   resolved "https://registry.npmjs.org/mongodb/-/mongodb-3.6.6.tgz"
   integrity sha512-WlirMiuV1UPbej5JeCMqE93JRfZ/ZzqE7nJTwP85XzjAF4rRSeq2bGCb1cjfoHLOF06+HxADaPGqT0g3SbVT1w==
@@ -7675,6 +7682,15 @@ node-modules-regexp@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/node-modules-regexp/-/node-modules-regexp-1.0.0.tgz"
   integrity sha1-jZ2+KJZKSsVxLpExZCEHxx6Q7EA=
+
+node-mongodb-fixtures@^3.2.0:
+  version "3.2.8"
+  resolved "https://registry.yarnpkg.com/node-mongodb-fixtures/-/node-mongodb-fixtures-3.2.8.tgz#e283c3b9da146b161289042fed462927927793c3"
+  integrity sha512-Xr5X7Yu+NDXY9BGapazg/dHPUyc3+JfJiuoVDlbl/aHRXPUasG5OEnOre09ZVTjd24S8dmPuZV+dkGC8ER/3Vg==
+  dependencies:
+    bluebird "^3.7.2"
+    commander "^6.2.0"
+    mongodb "^3.6.3"
 
 node-notifier@^8.0.0:
   version "8.0.2"
