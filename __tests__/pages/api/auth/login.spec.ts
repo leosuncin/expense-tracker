@@ -99,4 +99,18 @@ describe('[POST] /api/auth/login', () => {
       statusCode: 401,
     });
   });
+
+  it('fails with incorrect password', async () => {
+    const body = loginFactory.build({ email: 'armando@martin.me' });
+    const result = await supertest(server)
+      .post('/api/auth/login')
+      .send(body)
+      .expect(401)
+      .expect('Content-Type', /json/);
+
+    expect(result.body).toMatchObject({
+      message: `Wrong password for user with email: ${body.email}`,
+      statusCode: 401,
+    });
+  });
 });
