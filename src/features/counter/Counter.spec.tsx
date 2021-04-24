@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { screen } from '@testing-library/react';
 import user from '@testing-library/user-event';
 

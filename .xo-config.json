@@ -39,7 +39,7 @@
           "camelCase": true,
           "pascalCase": true
         },
-        "ignore": ["next-env.d.ts", "__coverage__.ts"]
+        "ignore": ["next-env.d.ts", "__coverage__.ts", "jest-mongodb-config.js"]
       }
     ],
     "unicorn/no-array-reduce": "off"

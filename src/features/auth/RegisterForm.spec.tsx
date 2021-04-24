@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { screen, waitFor } from '@testing-library/react';
 import user from '@testing-library/user-event';
 import { enableFetchMocks } from 'jest-fetch-mock';
