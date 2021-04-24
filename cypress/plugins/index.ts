@@ -11,6 +11,7 @@
 
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
+import { loadFixtures } from './tasks';
 
 /**
  * @type {Cypress.PluginConfig}
@@ -30,6 +31,7 @@ module.exports = (
 
       return null;
     },
+    loadFixtures,
   });
 
   return config;
