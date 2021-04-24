@@ -20,32 +20,36 @@ function LoginForm() {
         </div>
       ) : null}
       <fieldset aria-disabled={formState.isSubmitting}>
-        <label htmlFor="login-email">
-          Email:
-          <input
-            id="login-email"
-            type="email"
-            autoComplete="email"
-            aria-invalid={Boolean(formState.errors.email)}
-            {...register('email')}
-          />
-        </label>
-        {formState.errors.email ? (
-          <span role="alert">{formState.errors.email.message}</span>
-        ) : null}
-        <label htmlFor="login-password">
-          Password:
-          <input
-            id="login-password"
-            type="password"
-            autoComplete="current-password"
-            aria-invalid={Boolean(formState.errors.password)}
-            {...register('password')}
-          />
-        </label>
-        {formState.errors.password ? (
-          <span role="alert">{formState.errors.password.message}</span>
-        ) : null}
+        <div>
+          <label htmlFor="login-email">
+            Email:
+            <input
+              id="login-email"
+              type="email"
+              autoComplete="email"
+              aria-invalid={Boolean(formState.errors.email)}
+              {...register('email')}
+            />
+          </label>
+          {formState.errors.email ? (
+            <span role="alert">{formState.errors.email.message}</span>
+          ) : null}
+        </div>
+        <div>
+          <label htmlFor="login-password">
+            Password:
+            <input
+              id="login-password"
+              type="password"
+              autoComplete="current-password"
+              aria-invalid={Boolean(formState.errors.password)}
+              {...register('password')}
+            />
+          </label>
+          {formState.errors.password ? (
+            <span role="alert">{formState.errors.password.message}</span>
+          ) : null}
+        </div>
       </fieldset>
       <button type="submit" disabled={formState.isSubmitting}>
         Login
