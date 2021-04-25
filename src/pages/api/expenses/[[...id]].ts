@@ -1,4 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
+import type { LeanDocument } from 'mongoose';
 import connect, { NextHandler } from 'next-connect';
 
 import type { User } from '@app/features/auth/User';
@@ -11,6 +12,7 @@ import {
 } from '@app/features/expenses/expenseSchemas';
 import {
   ApiHandler,
+  ErrorResponse,
   castObjectIdMiddleware,
   databaseMiddleware,
   errorMiddleware,
@@ -18,7 +20,14 @@ import {
   validationMiddleware,
 } from '@app/utils/middleware';
 
-const createExpenseHandler: ApiHandler<CreateExpense> = async (
+export interface ExpenseResponse extends Omit<LeanDocument<Expense>, 'author'> {
+  _id: string;
+  author: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const createExpenseHandler: ApiHandler<CreateExpense, ExpenseResponse> = async (
   request,
   response,
 ) => {
@@ -28,22 +37,31 @@ const createExpenseHandler: ApiHandler<CreateExpense> = async (
 
   await expense.save();
 
-  response.status(StatusCodes.CREATED).json(expense.toJSON());
+  response
+    .status(StatusCodes.CREATED)
+    .json((expense.toJSON() as unknown) as ExpenseResponse);
 };
 
-const findExpensesHandler: ApiHandler = async (request, response) => {
+const findExpensesHandler: ApiHandler<never, ExpenseResponse[]> = async (
+  request,
+  response,
+) => {
   // @ts-expect-error Is already verified by a middleware
   const author: User = request.session.get<User>('user');
   const expenses = await Expense.find({ author: author._id }).sort({
     createdAt: 'desc',
   });
 
-  response.json(expenses.map((expense) => expense.toJSON()));
+  response.json(
+    (expenses.map((expense) =>
+      expense.toJSON(),
+    ) as unknown) as ExpenseResponse[],
+  );
 };
 
 async function verifyReadConditionsMiddleware(
   request: Parameters<ApiHandler>[0],
-  response: Parameters<ApiHandler>[1],
+  response: Parameters<ApiHandler<ErrorResponse>>[1],
   next: NextHandler,
 ) {
   if (request.session.get<User>('user')) {
@@ -56,15 +74,18 @@ async function verifyReadConditionsMiddleware(
   }
 }
 
-const getExpenseHandler: ApiHandler = async (request, response) => {
+const getExpenseHandler: ApiHandler<never, ExpenseResponse> = async (
+  request,
+  response,
+) => {
   const expenseId = request.query.id as string;
   // @ts-expect-error it exists, is checked in the middleware
   const expense: Expense = await Expense.findById(expenseId);
 
-  response.json(expense.toJSON());
+  response.json((expense.toJSON() as unknown) as ExpenseResponse);
 };
 
-const updateExpenseHandler: ApiHandler<UpdateExpense> = async (
+const updateExpenseHandler: ApiHandler<UpdateExpense, ExpenseResponse> = async (
   request,
   response,
 ) => {
@@ -77,7 +98,7 @@ const updateExpenseHandler: ApiHandler<UpdateExpense> = async (
   expense.description = request.body.description ?? expense.description;
   await expense.save();
 
-  response.json(expense.toJSON());
+  response.json((expense.toJSON() as unknown) as ExpenseResponse);
 };
 
 const removeExpenseHandler: ApiHandler = async (request, response) => {
@@ -92,7 +113,7 @@ const removeExpenseHandler: ApiHandler = async (request, response) => {
 
 async function verifyWriteConditionsMiddleware(
   request: Parameters<ApiHandler>[0],
-  response: Parameters<ApiHandler>[1],
+  response: Parameters<ApiHandler<unknown, ErrorResponse>>[1],
   next: NextHandler,
 ) {
   const expenseId = request.query.id as string;
