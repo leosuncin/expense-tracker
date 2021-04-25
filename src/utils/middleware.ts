@@ -116,15 +116,25 @@ export function validationMiddleware<Schema extends Record<string, unknown>>(
 }
 
 export function castObjectIdMiddleware(
-  request: ApiRequest,
+  request: ApiRequest & { query: { id: string[] } },
   response: NextApiResponse<ErrorResponse>,
   next: NextHandler,
 ) {
-  if (isValidObjectId(request.query.id)) {
+  if (request.query.id.length > 1) {
+    response.status(StatusCodes.NOT_FOUND).send({
+      message: 'Route not found',
+      statusCode: StatusCodes.NOT_FOUND,
+    });
+    return;
+  }
+
+  const id = request.query.id[0];
+
+  if (isValidObjectId(id)) {
     next();
   } else {
     response.status(StatusCodes.BAD_REQUEST).json({
-      message: `${request.query.id as string} is not a valid ID`,
+      message: `${id} is not a valid ID`,
       statusCode: StatusCodes.BAD_REQUEST,
     });
   }
