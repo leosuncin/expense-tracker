@@ -67,9 +67,9 @@ async function verifyReadConditionsMiddleware(
   if (request.session.get<User>('user')) {
     next();
   } else {
-    response.status(StatusCodes.FORBIDDEN).json({
+    response.status(StatusCodes.UNAUTHORIZED).json({
       message: 'You must be logged in order to access',
-      statusCode: StatusCodes.FORBIDDEN,
+      statusCode: StatusCodes.UNAUTHORIZED,
     });
   }
 }
