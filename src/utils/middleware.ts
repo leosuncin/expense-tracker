@@ -9,6 +9,7 @@ import { connectDB } from '@app/app/db';
 interface ApiRequest<Schema = Record<string, unknown>> extends NextApiRequest {
   session: Session;
   body: Schema;
+  method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'OPTIONS' | 'DELETE' | 'HEAD';
 }
 
 export type ApiHandler<Schema = any, Result = any> = (
@@ -102,7 +103,10 @@ export function validationMiddleware<Schema extends Record<string, unknown>>(
     next: NextHandler,
   ) => {
     try {
-      request.body = schema.parse(request.body);
+      if (['POST', 'PUT', 'PATCH'].includes(request.method)) {
+        request.body = schema.parse(request.body);
+      }
+
       next();
     } catch (error: unknown) {
       next(error);
