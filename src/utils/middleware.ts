@@ -11,6 +11,7 @@ interface ApiRequest<Schema = Record<string, unknown>> extends NextApiRequest {
   session: Session;
   body: Schema;
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'OPTIONS' | 'DELETE' | 'HEAD';
+  params: Record<string, string>;
 }
 
 export type ApiHandler<Schema = any, Result = any> = (
@@ -120,21 +121,11 @@ export function castObjectIdMiddleware(
   response: NextApiResponse<ErrorResponse>,
   next: NextHandler,
 ) {
-  if (request.query.id.length > 1) {
-    response.status(StatusCodes.NOT_FOUND).send({
-      message: 'Route not found',
-      statusCode: StatusCodes.NOT_FOUND,
-    });
-    return;
-  }
-
-  const id = request.query.id[0];
-
-  if (isValidObjectId(id)) {
+  if (isValidObjectId(request.params.id)) {
     next();
   } else {
     response.status(StatusCodes.BAD_REQUEST).json({
-      message: `${id} is not a valid ID`,
+      message: `${request.params.id} is not a valid ID`,
       statusCode: StatusCodes.BAD_REQUEST,
     });
   }
