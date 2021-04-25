@@ -139,8 +139,14 @@ async function verifyWriteConditionsMiddleware(
 
   // @ts-expect-error `author` is not populated
   if (expense.author.toHexString() !== author._id && !author.isAdmin) {
+    const action =
+      request.method === 'DELETE'
+        ? 'remove'
+        : request.method === 'PUT'
+        ? 'modify'
+        : 'access';
     response.status(StatusCodes.FORBIDDEN).json({
-      message: `You need to be the author of the expense in order to access it`,
+      message: `You need to be the author of the expense in order to ${action} it`,
       statusCode: StatusCodes.FORBIDDEN,
     });
     return;
