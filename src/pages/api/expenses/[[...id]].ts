@@ -78,7 +78,7 @@ const getExpenseHandler: ApiHandler<never, ExpenseResponse> = async (
   request,
   response,
 ) => {
-  const expenseId = request.query.id as string;
+  const expenseId = request.params.id;
   // @ts-expect-error it exists, is checked in the middleware
   const expense: Expense = await Expense.findById(expenseId);
 
@@ -89,7 +89,7 @@ const updateExpenseHandler: ApiHandler<UpdateExpense, ExpenseResponse> = async (
   request,
   response,
 ) => {
-  const expenseId = request.query.id as string;
+  const expenseId = request.params.id;
   // @ts-expect-error it exists, is checked in the middleware
   const expense: Expense = await Expense.findById(expenseId);
 
@@ -102,7 +102,7 @@ const updateExpenseHandler: ApiHandler<UpdateExpense, ExpenseResponse> = async (
 };
 
 const removeExpenseHandler: ApiHandler = async (request, response) => {
-  const expenseId = request.query.id as string;
+  const expenseId = request.params.id;
   // @ts-expect-error it exists, is checked in the middleware
   const expense: Expense = await Expense.findById(expenseId);
 
@@ -116,7 +116,7 @@ async function verifyWriteConditionsMiddleware(
   response: Parameters<ApiHandler<unknown, ErrorResponse>>[1],
   next: NextHandler,
 ) {
-  const expenseId = request.query.id as string;
+  const expenseId = request.params.id;
   const author = request.session.get<User>('user');
 
   if (!author) {
@@ -149,7 +149,7 @@ async function verifyWriteConditionsMiddleware(
   next();
 }
 
-export default connect({ onError: errorMiddleware })
+export default connect({ onError: errorMiddleware, attachParams: true })
   .use(databaseMiddleware)
   .use(sessionMiddleware)
   .use('/api/expenses', verifyReadConditionsMiddleware)
