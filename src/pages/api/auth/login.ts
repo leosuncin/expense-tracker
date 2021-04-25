@@ -25,6 +25,7 @@ const loginHandler: ApiHandler<LoginUser> = async (request, response) => {
   if (!(await user.checkPassword(password))) {
     response.status(401).json({
       message: `Wrong password for user with email: ${email}`,
+      statusCode: 401,
     });
     return;
   }
