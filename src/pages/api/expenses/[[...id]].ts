@@ -4,7 +4,9 @@ import connect, { NextHandler } from 'next-connect';
 import type { User } from '@app/features/auth/User';
 import { Expense } from '@app/features/expenses/Expense';
 import {
+  CreateExpense,
   UpdateExpense,
+  createExpenseSchema,
   updateExpenseSchema,
 } from '@app/features/expenses/expenseSchemas';
 import {
@@ -15,6 +17,44 @@ import {
   sessionMiddleware,
   validationMiddleware,
 } from '@app/utils/middleware';
+
+const createExpenseHandler: ApiHandler<CreateExpense> = async (
+  request,
+  response,
+) => {
+  // @ts-expect-error Is already verified by a middleware
+  const author: User = request.session.get<User>('user');
+  const expense = new Expense({ ...request.body, author: author._id });
+
+  await expense.save();
+
+  response.status(StatusCodes.CREATED).json(expense.toJSON());
+};
+
+const findExpensesHandler: ApiHandler = async (request, response) => {
+  // @ts-expect-error Is already verified by a middleware
+  const author: User = request.session.get<User>('user');
+  const expenses = await Expense.find({ author: author._id }).sort({
+    createdAt: 'desc',
+  });
+
+  response.json(expenses.map((expense) => expense.toJSON()));
+};
+
+async function verifyReadConditionsMiddleware(
+  request: Parameters<ApiHandler>[0],
+  response: Parameters<ApiHandler>[1],
+  next: NextHandler,
+) {
+  if (request.session.get<User>('user')) {
+    next();
+  } else {
+    response.status(StatusCodes.FORBIDDEN).json({
+      message: 'You must be logged in order to access',
+      statusCode: StatusCodes.FORBIDDEN,
+    });
+  }
+}
 
 const getExpenseHandler: ApiHandler = async (request, response) => {
   const expenseId = request.query.id as string;
@@ -50,7 +90,7 @@ const removeExpenseHandler: ApiHandler = async (request, response) => {
   response.status(StatusCodes.NO_CONTENT).send(Buffer.alloc(0));
 };
 
-async function verifyConditionsMiddleware(
+async function verifyWriteConditionsMiddleware(
   request: Parameters<ApiHandler>[0],
   response: Parameters<ApiHandler>[1],
   next: NextHandler,
@@ -91,9 +131,13 @@ async function verifyConditionsMiddleware(
 export default connect({ onError: errorMiddleware })
   .use(databaseMiddleware)
   .use(sessionMiddleware)
-  .use(castObjectIdMiddleware)
-  .use(verifyConditionsMiddleware)
-  .use(validationMiddleware(updateExpenseSchema))
-  .get(getExpenseHandler)
-  .put(updateExpenseHandler)
-  .delete(removeExpenseHandler);
+  .use('/api/expenses', verifyReadConditionsMiddleware)
+  .use('/api/expenses', validationMiddleware(createExpenseSchema))
+  .post('/api/expenses', createExpenseHandler)
+  .get('/api/expenses', findExpensesHandler)
+  .use('/api/expenses/:id', castObjectIdMiddleware)
+  .use('/api/expenses/:id', verifyWriteConditionsMiddleware)
+  .use('/api/expenses/:id', validationMiddleware(updateExpenseSchema))
+  .get('/api/expenses/:id', getExpenseHandler)
+  .put('/api/expenses/:id', updateExpenseHandler)
+  .delete('/api/expenses/:id', removeExpenseHandler);
