@@ -1,5 +1,6 @@
 /* eslint-disable import/no-unassigned-import */
 import '@app/features/auth/User';
+import '@app/features/expenses/Expense';
 
 import mongoose from 'mongoose';
 
