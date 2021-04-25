@@ -1,4 +1,5 @@
-import { Error as MongooseError } from 'mongoose';
+import { StatusCodes } from 'http-status-codes';
+import { Error as MongooseError, isValidObjectId } from 'mongoose';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { NextHandler } from 'next-connect';
 import { Session, ironSession } from 'next-iron-session';
@@ -39,7 +40,7 @@ export async function databaseMiddleware(
 export function errorMiddleware(
   error: unknown,
   _: NextApiRequest,
-  response: NextApiResponse,
+  response: NextApiResponse<ErrorResponse>,
 ) {
   let status = 501;
   let errorResponse: ErrorResponse = {
@@ -112,4 +113,19 @@ export function validationMiddleware<Schema extends Record<string, unknown>>(
       next(error);
     }
   };
+}
+
+export function castObjectIdMiddleware(
+  request: ApiRequest,
+  response: NextApiResponse<ErrorResponse>,
+  next: NextHandler,
+) {
+  if (isValidObjectId(request.query.id)) {
+    next();
+  } else {
+    response.status(StatusCodes.BAD_REQUEST).json({
+      message: `${request.query.id as string} is not a valid ID`,
+      statusCode: StatusCodes.BAD_REQUEST,
+    });
+  }
 }
