@@ -23,4 +23,15 @@ module.exports = [
     updatedAt: new Date(),
     __v: 0,
   },
+  {
+    _id: new ObjectID('6085f5ac58dad1da02aa9fe3'),
+    isAdmin: false,
+    name: 'Samuel Simmons',
+    email: 'samuel@simmons.me',
+    // Curling-confetti-skater
+    password: '$2a$16$nbwDu1Rey1/.E2.uPhCcLeX09lgvSLwevkfQpGL.uaFH..cQtIlHq',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    __v: 0,
+  },
 ];
