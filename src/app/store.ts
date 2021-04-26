@@ -1,20 +1,26 @@
 import {
   Action,
   AnyAction,
+  DeepPartial,
   ThunkAction,
   ThunkDispatch,
   configureStore,
   getDefaultMiddleware,
 } from '@reduxjs/toolkit';
 import { createRouterMiddleware, routerReducer } from 'connected-next-router';
+import type { RouterState } from 'connected-next-router/types';
 
-import authReducer from '@app/features/auth/authSlice';
-import counterReducer from '@app/features/counter/counterSlice';
-import expensesReducer from '@app/features/expenses/expenseSlice';
+import authReducer, { AuthState } from '@app/features/auth/authSlice';
+import counterReducer, {
+  CounterState,
+} from '@app/features/counter/counterSlice';
+import expensesReducer, {
+  ExpenseState,
+} from '@app/features/expenses/expenseSlice';
 
 const routerMiddleware = createRouterMiddleware();
 
-export function makeStore() {
+export function makeStore(preloadedState?: DeepPartial<AppState>) {
   return configureStore({
     reducer: {
       counter: counterReducer,
@@ -23,12 +29,18 @@ export function makeStore() {
       expenses: expensesReducer,
     },
     middleware: [...getDefaultMiddleware(), routerMiddleware],
+    preloadedState,
   });
 }
 
 const store = makeStore();
 
-export type AppState = ReturnType<typeof store.getState>;
+export type AppState = {
+  counter: CounterState;
+  auth: AuthState;
+  router: RouterState;
+  expenses: ExpenseState;
+};
 
 export type AppDispatch = ThunkDispatch<AppState, null, AnyAction> &
   ThunkDispatch<AppState, undefined, AnyAction> &
