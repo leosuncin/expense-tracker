@@ -38,6 +38,9 @@ const authSlice = createSlice({
     clearError(state) {
       delete state.error;
     },
+    setError(state, action: PayloadAction<string>) {
+      state.error = action.payload;
+    },
   },
   extraReducers: (builder) => {
     function buildLoadingState(state: AuthState) {
@@ -110,7 +113,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { clearError } = authSlice.actions;
+export const { clearError, setError } = authSlice.actions;
 
 export const selectAuth = (state: AppState) => state.auth;
 
