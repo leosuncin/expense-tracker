@@ -12,6 +12,7 @@ import {
 } from '@app/features/expenses/expenseSchemas';
 import {
   ApiHandler,
+  ApiRequest,
   ErrorResponse,
   castObjectIdMiddleware,
   databaseMiddleware,
@@ -150,12 +151,15 @@ export default connect({ onError: errorMiddleware, attachParams: true })
   .use(databaseMiddleware)
   .use(sessionMiddleware)
   .use('/api/expenses', verifyReadConditionsMiddleware)
-  .use('/api/expenses', validationMiddleware(createExpenseSchema))
+  .use((request: ApiRequest<CreateExpense | UpdateExpense>, response, next) => {
+    validationMiddleware(
+      request.method === 'POST' ? createExpenseSchema : updateExpenseSchema,
+    )(request, response, next);
+  })
   .post('/api/expenses', createExpenseHandler)
   .get('/api/expenses', findExpensesHandler)
   .use('/api/expenses/:id', castObjectIdMiddleware)
   .use('/api/expenses/:id', verifyWriteConditionsMiddleware)
-  .use('/api/expenses/:id', validationMiddleware(updateExpenseSchema))
   .get('/api/expenses/:id', getExpenseHandler)
   .put('/api/expenses/:id', updateExpenseHandler)
   .delete('/api/expenses/:id', removeExpenseHandler);
