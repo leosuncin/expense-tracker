@@ -118,15 +118,6 @@ async function verifyWriteConditionsMiddleware(
 ) {
   const expenseId = request.params.id;
   const author = request.session.get<User>('user');
-
-  if (!author) {
-    response.status(StatusCodes.FORBIDDEN).json({
-      message: 'You must be logged in order to access',
-      statusCode: StatusCodes.FORBIDDEN,
-    });
-    return;
-  }
-
   const expense = await Expense.findById(expenseId);
 
   if (!expense) {
