@@ -1,12 +1,13 @@
 import { AsyncThunkPayloadCreator } from '@reduxjs/toolkit';
 import { push } from 'connected-next-router';
 
-import type { AppDispatch } from '@app/app/store';
+import type { AppDispatch, AppState } from '@app/app/store';
 import { setError as setAuthError } from '@app/features/auth/authSlice';
 import type {
   CreateExpense,
   UpdateExpense,
 } from '@app/features/expenses/expenseSchemas';
+import { selectExpense } from '@app/features/expenses/expenseSlice';
 import type { ExpenseResponse as Expense } from '@app/pages/api/expenses/[[...id]]';
 import type { ErrorResponse } from '@app/utils/middleware';
 
@@ -61,8 +62,12 @@ export const findExpenses: AsyncThunkPayloadCreator<
 export const getExpense: AsyncThunkPayloadCreator<
   Expense,
   Expense['_id'],
-  { rejectValue: ErrorResponse; dispatch: AppDispatch }
+  { rejectValue: ErrorResponse; dispatch: AppDispatch; state: AppState }
 > = async (id, thunkApi) => {
+  const expense = selectExpense(thunkApi.getState(), id);
+
+  if (expense) return expense;
+
   const response = await fetch(`/api/expenses/${id}`);
 
   if (response.status >= 400 && response.status < 500) {
