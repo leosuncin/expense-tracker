@@ -7,7 +7,8 @@ import { ZodError, ZodType } from 'zod';
 
 import { connectDB } from '@app/app/db';
 
-interface ApiRequest<Schema = Record<string, unknown>> extends NextApiRequest {
+export interface ApiRequest<Schema = Record<string, unknown>>
+  extends NextApiRequest {
   session: Session;
   body: Schema;
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'OPTIONS' | 'DELETE' | 'HEAD';
