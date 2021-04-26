@@ -1,0 +1,15 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - init: mkdir -p /workspace/data
+    command: mongod --quiet --dbpath /workspace/data
+  - init: |
+      yarn install
+      yarn fixtures:load
+      cp .env.example .env
+    command: yarn dev
+
+ports:
+  - port: 3000
+    onOpen: open-preview
