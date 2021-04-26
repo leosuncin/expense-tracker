@@ -1,4 +1,5 @@
 import http from 'http';
+import { URL } from 'url';
 
 import { render } from '@testing-library/react';
 import { ConnectedRouter } from 'connected-next-router';
@@ -8,7 +9,10 @@ import cookie from 'cookie';
 import createStore from 'iron-store';
 import type { NextApiHandler } from 'next';
 import { RouterContext } from 'next/dist/next-server/lib/router-context';
-import { apiResolver } from 'next/dist/next-server/server/api-utils';
+import {
+  NextApiRequestQuery,
+  apiResolver,
+} from 'next/dist/next-server/server/api-utils';
 import type { NextRouter } from 'next/router';
 import { createRouter } from 'next/router';
 import { Provider } from 'react-redux';
@@ -42,18 +46,51 @@ function customRender(
 
 export { customRender as render };
 
+function parseQuery(url: string): NextApiRequestQuery {
+  const parameters = new URL(url, 'https://n').searchParams;
+  const query: NextApiRequestQuery = {};
+
+  for (const [key, value] of parameters) {
+    // Param given multiple times
+    if (query[key]) {
+      const previousValue = query[key];
+
+      // Param given at least 2x previously
+      if (Array.isArray(previousValue)) {
+        // Merge
+        query[key] = [...previousValue, value];
+      } else {
+        // Group
+        query[key] = [previousValue, value];
+      }
+    } else {
+      // Initial define
+      query[key] = value;
+    }
+  }
+
+  return query;
+}
+
 export function createServer(
   handler: NextApiHandler | ApiHandler,
 ): http.Server {
-  const requestHandler: http.RequestListener = async (request, response) =>
-    apiResolver(
+  const requestHandler: http.RequestListener = async (request, response) => {
+    const query = parseQuery(request.url ?? '/');
+
+    return apiResolver(
       request,
       response,
-      undefined,
+      query,
       handler,
-      {} as Parameters<typeof apiResolver>[4],
+      {
+        previewModeEncryptionKey: '',
+        previewModeSigningKey: '',
+        previewModeId: '',
+      },
       true,
     );
+  };
 
   return http.createServer(requestHandler);
 }
