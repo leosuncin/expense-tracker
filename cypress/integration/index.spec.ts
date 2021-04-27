@@ -1,24 +1,51 @@
-describe('Example Counter test', () => {
+import { StatusCodes } from 'http-status-codes';
+
+import { createExpenseFactory } from '@app/features/expenses/expenseFactories';
+
+describe('Expense tracker', () => {
   beforeEach(() => {
-    // https://on.cypress.io/visit
-    cy.visit('/');
+    cy.task('loadFixtures');
+    cy.intercept('GET', '**/api/expenses').as('findExpenses');
+    cy.intercept('POST', '**/api/expenses').as('createExpense');
   });
 
-  it('shows "Redux Toolkit"', () => {
-    cy.findByText(/redux toolkit/i, { selector: 'a' }).should('exist');
+  context('Unauthenticated', () => {
+    beforeEach(() => {
+      cy.visit('/');
+    });
+
+    it('redirects to login', () => {
+      cy.wait('@findExpenses')
+        .its('response.statusCode')
+        .should('equal', StatusCodes.UNAUTHORIZED);
+      cy.location('pathname').should('equal', '/login');
+    });
   });
 
-  it('calls custom commands from support file', () => {
-    cy.customCommand().should('equal', 42);
-  });
+  context('Authenticated', () => {
+    beforeEach(() => {
+      cy.login('armando@martin.me', 'reversion-rockband-bonding');
+      cy.visit('/');
+    });
 
-  it('calls into plugins process via cy.task', () => {
-    cy.task('log', 'Hello Node!');
-  });
+    it('list the expenses', () => {
+      cy.wait('@findExpenses');
+      cy.findAllByRole('rowgroup').last().should('not.be.empty');
+    });
 
-  // More examples
-  //
-  // https://github.com/cypress-io/cypress-example-todomvc
-  // https://github.com/cypress-io/cypress-example-kitchensink
-  // https://on.cypress.io/writing-your-first-test
+    it('add a new expense', () => {
+      const data = createExpenseFactory.build();
+
+      cy.findByLabelText(/name/i).type(data.name);
+      cy.findByLabelText(/amount/i).type(String(data.amount));
+      cy.findByLabelText(/description/i).type(String(data.description));
+      cy.findByRole('button', { name: /add expense/i }).click();
+
+      cy.wait('@createExpense')
+        .its('response.statusCode')
+        .should('equal', StatusCodes.CREATED);
+
+      cy.findByRole('cell', { name: data.name }).should('exist');
+    });
+  });
 });
