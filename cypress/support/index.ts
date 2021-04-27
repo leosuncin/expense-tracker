@@ -19,3 +19,12 @@ import '@cypress/code-coverage/support';
 Cypress.Commands.add('customCommand', () => {
   return cy.wrap(42);
 });
+
+Cypress.Commands.add('login', (email: string, password: string) => {
+  Cypress.Cookies.preserveOnce('app-session');
+
+  return cy
+    .clearCookies()
+    .request('POST', '/api/auth/login', { email, password })
+    .its('body');
+});
