@@ -11,9 +11,6 @@ import { createRouterMiddleware, routerReducer } from 'connected-next-router';
 import type { RouterState } from 'connected-next-router/types';
 
 import authReducer, { AuthState } from '@app/features/auth/authSlice';
-import counterReducer, {
-  CounterState,
-} from '@app/features/counter/counterSlice';
 import expensesReducer, {
   ExpenseState,
 } from '@app/features/expenses/expenseSlice';
@@ -23,7 +20,6 @@ const routerMiddleware = createRouterMiddleware();
 export function makeStore(preloadedState?: DeepPartial<AppState>) {
   return configureStore({
     reducer: {
-      counter: counterReducer,
       auth: authReducer,
       router: routerReducer,
       expenses: expensesReducer,
@@ -36,7 +32,6 @@ export function makeStore(preloadedState?: DeepPartial<AppState>) {
 const store = makeStore();
 
 export type AppState = {
-  counter: CounterState;
   auth: AuthState;
   router: RouterState;
   expenses: ExpenseState;
