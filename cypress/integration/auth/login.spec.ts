@@ -1,8 +1,10 @@
+import { StatusCodes } from 'http-status-codes';
+
 import { loginFactory } from '@app/features/auth/authFactories';
 
 describe('Login page', () => {
   beforeEach(() => {
-    cy.task('loadFixtures');
+    cy.task('loadFixtures', { filter: 'users.*' });
 
     cy.intercept('POST', '**/api/auth/login').as('login');
     cy.visit('/login');
@@ -33,7 +35,9 @@ describe('Login page', () => {
     cy.findByLabelText(/password/i).type(data.password);
     cy.findByRole('button', { name: /login/i }).click();
 
-    cy.wait('@login').its('response.statusCode').should('equal', 200);
+    cy.wait('@login')
+      .its('response.statusCode')
+      .should('equal', StatusCodes.OK);
   });
 
   it('fails with non existing user', () => {
@@ -43,7 +47,9 @@ describe('Login page', () => {
     cy.findByLabelText(/password/i).type(data.password);
     cy.findByRole('button', { name: /login/i }).click();
 
-    cy.wait('@login').its('response.statusCode').should('equal', 401);
+    cy.wait('@login')
+      .its('response.statusCode')
+      .should('equal', StatusCodes.UNAUTHORIZED);
     cy.findByText(`There isn't any user with email: ${data.email}`).should(
       'be.visible',
     );
@@ -56,7 +62,9 @@ describe('Login page', () => {
     cy.findByLabelText(/password/i).type(data.password);
     cy.findByRole('button', { name: /login/i }).click();
 
-    cy.wait('@login').its('response.statusCode').should('equal', 401);
+    cy.wait('@login')
+      .its('response.statusCode')
+      .should('equal', StatusCodes.UNAUTHORIZED);
     cy.findByText(`Wrong password for user with email: ${data.email}`).should(
       'be.visible',
     );

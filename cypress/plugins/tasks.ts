@@ -1,8 +1,7 @@
 import Fixtures, { Options } from 'node-mongodb-fixtures';
 
-// eslint-disable-next-line unicorn/no-object-as-default-parameter
-export async function loadFixtures(options: Options = { mute: true }) {
-  const fixtures = new Fixtures(options);
+export async function loadFixtures(options: Options = {}) {
+  const fixtures = new Fixtures({ ...options, mute: true });
 
   if (!process.env.MONGO_URL) return false;
 
