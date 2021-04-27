@@ -1,5 +1,6 @@
 import http from 'http';
 
+import { StatusCodes } from 'http-status-codes';
 import Fixtures from 'node-mongodb-fixtures';
 import supertest from 'supertest';
 
@@ -39,7 +40,7 @@ describe('[POST] /api/auth/register', () => {
     const result = await supertest(server)
       .post('/api/auth/register')
       .send(body)
-      .expect(201)
+      .expect(StatusCodes.CREATED)
       .expect('Content-Type', /json/);
 
     expect(result.body).toMatchObject({
@@ -72,7 +73,7 @@ describe('[POST] /api/auth/register', () => {
     const result = await supertest(server)
       .post('/api/auth/register')
       .send(body)
-      .expect(422)
+      .expect(StatusCodes.UNPROCESSABLE_ENTITY)
       .expect('Content-Type', /json/);
 
     expect(result.body).toMatchObject({
@@ -82,7 +83,7 @@ describe('[POST] /api/auth/register', () => {
         expect.stringMatching(/password/i),
       ]),
       message: 'Validation error',
-      statusCode: 422,
+      statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
     });
   });
 
@@ -91,7 +92,7 @@ describe('[POST] /api/auth/register', () => {
     const result = await supertest(server)
       .post('/api/auth/register')
       .send(body)
-      .expect(409)
+      .expect(StatusCodes.CONFLICT)
       .expect('Content-Type', /json/);
 
     expect(result.body).toMatchInlineSnapshot(`

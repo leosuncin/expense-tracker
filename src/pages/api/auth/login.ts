@@ -1,3 +1,4 @@
+import { StatusCodes } from 'http-status-codes';
 import connect from 'next-connect';
 
 import { LoginUser, loginSchema } from '@app/features/auth/authSchemas';
@@ -15,17 +16,17 @@ const loginHandler: ApiHandler<LoginUser> = async (request, response) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    response.status(401).json({
+    response.status(StatusCodes.UNAUTHORIZED).json({
       message: `There isn't any user with email: ${email}`,
-      statusCode: 401,
+      statusCode: StatusCodes.UNAUTHORIZED,
     });
     return;
   }
 
   if (!(await user.checkPassword(password))) {
-    response.status(401).json({
+    response.status(StatusCodes.UNAUTHORIZED).json({
       message: `Wrong password for user with email: ${email}`,
-      statusCode: 401,
+      statusCode: StatusCodes.UNAUTHORIZED,
     });
     return;
   }

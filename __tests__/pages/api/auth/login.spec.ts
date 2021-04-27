@@ -1,5 +1,6 @@
 import http from 'http';
 
+import { StatusCodes } from 'http-status-codes';
 import Fixtures from 'node-mongodb-fixtures';
 import supertest from 'supertest';
 
@@ -42,7 +43,7 @@ describe('[POST] /api/auth/login', () => {
     const result = await supertest(server)
       .post('/api/auth/login')
       .send(body)
-      .expect(200)
+      .expect(StatusCodes.OK)
       .expect('Content-Type', /json/);
 
     expect(result.body).toMatchObject({
@@ -73,7 +74,7 @@ describe('[POST] /api/auth/login', () => {
     const result = await supertest(server)
       .post('/api/auth/login')
       .send(body)
-      .expect(422)
+      .expect(StatusCodes.UNPROCESSABLE_ENTITY)
       .expect('Content-Type', /json/);
 
     expect(result.body).toMatchObject({
@@ -82,7 +83,7 @@ describe('[POST] /api/auth/login', () => {
         expect.stringMatching(/password/i),
       ]),
       message: 'Validation error',
-      statusCode: 422,
+      statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
     });
   });
 
@@ -91,12 +92,12 @@ describe('[POST] /api/auth/login', () => {
     const result = await supertest(server)
       .post('/api/auth/login')
       .send(body)
-      .expect(401)
+      .expect(StatusCodes.UNAUTHORIZED)
       .expect('Content-Type', /json/);
 
     expect(result.body).toMatchObject({
       message: `There isn't any user with email: ${body.email}`,
-      statusCode: 401,
+      statusCode: StatusCodes.UNAUTHORIZED,
     });
   });
 
@@ -105,12 +106,12 @@ describe('[POST] /api/auth/login', () => {
     const result = await supertest(server)
       .post('/api/auth/login')
       .send(body)
-      .expect(401)
+      .expect(StatusCodes.UNAUTHORIZED)
       .expect('Content-Type', /json/);
 
     expect(result.body).toMatchObject({
       message: `Wrong password for user with email: ${body.email}`,
-      statusCode: 401,
+      statusCode: StatusCodes.UNAUTHORIZED,
     });
   });
 });
