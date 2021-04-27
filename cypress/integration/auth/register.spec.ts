@@ -1,8 +1,10 @@
+import { StatusCodes } from 'http-status-codes';
+
 import { registerFactory } from '@app/features/auth/authFactories';
 
 describe('Register page', () => {
   beforeEach(() => {
-    cy.task('loadFixtures');
+    cy.task('loadFixtures', { filter: 'users.*' });
 
     cy.intercept('POST', '**/api/auth/register').as('register');
     cy.visit('/register');
@@ -34,7 +36,9 @@ describe('Register page', () => {
     cy.findByLabelText(/password/i).type(data.password);
     cy.findByRole('button', { name: /register/i }).click();
 
-    cy.wait('@register').its('response.statusCode').should('equal', 201);
+    cy.wait('@register')
+      .its('response.statusCode')
+      .should('equal', StatusCodes.CREATED);
   });
 
   it('fails to register a duplicate user', () => {
@@ -45,7 +49,9 @@ describe('Register page', () => {
     cy.findByLabelText(/password/i).type(data.password);
     cy.findByRole('button', { name: /register/i }).click();
 
-    cy.wait('@register').its('response.statusCode').should('equal', 409);
+    cy.wait('@register')
+      .its('response.statusCode')
+      .should('equal', StatusCodes.CONFLICT);
     cy.findByText('Duplicate data: is already register').should('be.visible');
   });
 });
