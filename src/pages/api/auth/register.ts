@@ -1,3 +1,4 @@
+import { StatusCodes } from 'http-status-codes';
 import connect from 'next-connect';
 
 import { RegisterUser, registerSchema } from '@app/features/auth/authSchemas';
@@ -17,7 +18,7 @@ const registerHandler: ApiHandler<RegisterUser> = async (request, response) => {
   request.session.set('user', user.toJSON());
   await request.session.save();
 
-  response.status(201).json(user.toJSON());
+  response.status(StatusCodes.CREATED).json(user.toJSON());
 };
 
 export default connect({ onError: errorMiddleware })

@@ -44,43 +44,32 @@ export function errorMiddleware(
   _: NextApiRequest,
   response: NextApiResponse<ErrorResponse>,
 ) {
-  let status = 501;
-  let errorResponse: ErrorResponse = {
-    message: 'Error',
-    statusCode: status,
-  };
+  let statusCode = StatusCodes.SERVICE_UNAVAILABLE;
+  let message = 'Error';
+  let errors;
 
   if (error instanceof Error) {
-    status = 500;
-    errorResponse = {
-      message: error.message,
-      statusCode: status,
-    };
+    statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
+    message = error.message;
   }
 
   if (error instanceof ZodError) {
-    status = 422;
-    errorResponse = {
-      message: 'Validation error',
-      statusCode: status,
-      errors: error.errors.map((error) => error.message),
-    };
+    statusCode = StatusCodes.UNPROCESSABLE_ENTITY;
+    message = 'Validation error';
+    errors = error.errors.map((error) => error.message);
   }
 
   if (error instanceof MongooseError.ValidationError) {
-    status = 409;
-    errorResponse = {
-      message: 'Duplicate data: is already register',
-      statusCode: status,
-      errors: Object.entries<Error>(error.errors).map(
-        ([path, error]) => path + ' ' + error.message,
-      ),
-    };
+    statusCode = StatusCodes.CONFLICT;
+    message = 'Duplicate data: is already register';
+    errors = Object.entries<Error>(error.errors).map(
+      ([path, error]) => path + ' ' + error.message,
+    );
   }
 
-  if (status >= 500) console.error(errorResponse);
+  if (statusCode >= StatusCodes.INTERNAL_SERVER_ERROR) console.error(message);
 
-  response.status(status).json(errorResponse);
+  response.status(statusCode).json({ message, statusCode, errors });
 }
 
 export const sessionMiddleware: (
