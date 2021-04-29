@@ -6,9 +6,9 @@ import type { Dictionary } from '@reduxjs/toolkit';
 import { screen } from '@testing-library/react';
 
 import { makeStore } from '@app/app/store';
+import type { ExpenseJson as Expense } from '@app/features/expenses/Expense';
 import { expenseFactory } from '@app/features/expenses/expenseFactories';
 import ExpensesTable from '@app/features/expenses/ExpensesTable';
-import type { ExpenseResponse as Expense } from '@app/pages/api/expenses/[[...id]]';
 import { render } from '@app/utils/testUtils';
 
 describe('<ExpensesTable />', () => {
@@ -24,8 +24,8 @@ describe('<ExpensesTable />', () => {
     const ids: string[] = [];
 
     for (const expense of expenses) {
-      entities[expense._id] = expense;
-      ids.push(expense._id);
+      entities[expense.id] = expense;
+      ids.push(expense.id);
     }
 
     const store = makeStore({ expenses: { entities, ids } });

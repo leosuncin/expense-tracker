@@ -8,8 +8,8 @@ import {
 import { HYDRATE } from 'next-redux-wrapper';
 
 import type { AppState } from '@app/app/store';
+import type { ExpenseJson as Expense } from '@app/features/expenses/Expense';
 import * as api from '@app/features/expenses/expenseApi';
-import type { ExpenseResponse as Expense } from '@app/pages/api/expenses/[[...id]]';
 import type { ErrorResponse } from '@app/utils/middleware';
 
 export type ExpenseState = typeof initialState;
@@ -30,7 +30,7 @@ export const removeExpense = createAsyncThunk(
 );
 
 const expensesAdapter = createEntityAdapter<Expense>({
-  selectId: (expense) => expense._id,
+  selectId: (expense) => expense.id,
   sortComparer: (expense1, expense2) =>
     expense1.createdAt.localeCompare(expense2.createdAt),
 });

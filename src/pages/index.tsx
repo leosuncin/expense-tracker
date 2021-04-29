@@ -5,10 +5,9 @@ import { wrapper } from '@app/app/store';
 import { setUser } from '@app/features/auth/authSlice';
 import type { UserJson } from '@app/features/auth/User';
 import AddExpense from '@app/features/expenses/AddExpense';
-import { Expense } from '@app/features/expenses/Expense';
+import Expense, { ExpenseJson } from '@app/features/expenses/Expense';
 import { setExpenses } from '@app/features/expenses/expenseSlice';
 import ExpensesTable from '@app/features/expenses/ExpensesTable';
-import type { ExpenseResponse } from '@app/pages/api/expenses/[[...id]]';
 import { ApiRequest, sessionOptions } from '@app/utils/middleware';
 
 const IndexPage: NextPage = () => {
@@ -33,12 +32,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
         },
       };
 
-    const expenses = (await Expense.find({ author: author.id })).map(
-      (expense) =>
-        expense.toJSON({
-          transform: (expense) => JSON.parse(JSON.stringify(expense)),
-        }) as ExpenseResponse,
-    );
+    const expenses = (
+      await Expense.find({ author: author.id })
+    ).map((expense) => expense.toJSON<ExpenseJson>());
     store.dispatch(setUser(author));
     store.dispatch(setExpenses(expenses));
 

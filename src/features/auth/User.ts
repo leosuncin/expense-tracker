@@ -3,6 +3,8 @@ import mongoose from 'mongoose';
 import type { Document, LeanDocument, ToObjectOptions, Types } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
+import { transformToJSON } from '@app/utils/helpers';
+
 export interface User {
   name: string;
   email: string;
@@ -51,16 +53,7 @@ const UserSchema = new mongoose.Schema<UserDocument>(
   {
     timestamps: true,
     toJSON: {
-      transform(_, returnValue) {
-        returnValue.id = returnValue._id.toHexString();
-        returnValue.createdAt = returnValue.createdAt.toISOString();
-        returnValue.updatedAt = returnValue.updatedAt.toISOString();
-        delete returnValue._id;
-        delete returnValue.__v;
-        delete returnValue.password;
-
-        return returnValue;
-      },
+      transform: transformToJSON,
     },
   },
 );

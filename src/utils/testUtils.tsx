@@ -19,7 +19,7 @@ import { Provider } from 'react-redux';
 import type { Store } from 'redux';
 
 import { makeStore } from '@app/app/store';
-import type { User } from '@app/features/auth/User';
+import type { UserDocument as User } from '@app/features/auth/User';
 import type { ApiHandler } from '@app/utils/middleware';
 
 function customRender(
@@ -95,8 +95,8 @@ export function createServer(
   return http.createServer(requestHandler);
 }
 
-export async function createCookieFor<U = User>(
-  user: U,
+export async function createCookieFor(
+  user: User,
   cookieName = 'app-session',
 ): Promise<string> {
   const cookieOptions: cookie.CookieSerializeOptions = {
@@ -109,7 +109,7 @@ export async function createCookieFor<U = User>(
     password: process.env.SECRET_COOKIE_PASSWORD,
   });
 
-  store.set('user', user);
+  store.set('user', user.toJSON());
 
   return cookie.serialize(cookieName, await store.seal(), cookieOptions);
 }

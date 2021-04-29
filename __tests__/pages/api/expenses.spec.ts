@@ -5,6 +5,8 @@ import Fixtures from 'node-mongodb-fixtures';
 import supertest, { SuperAgentTest } from 'supertest';
 
 import { disconnectDB } from '@app/app/db';
+import User from '@app/features/auth/User';
+import type { ExpenseJson } from '@app/features/expenses/Expense';
 import { createExpenseFactory } from '@app/features/expenses/expenseFactories';
 import type { CreateExpense } from '@app/features/expenses/expenseSchemas';
 import expensesHandler from '@app/pages/api/expenses/[[...id]]';
@@ -14,8 +16,8 @@ import users from '../../../fixtures/users.js';
 
 jest.setTimeout(10e3);
 const fixtures = new Fixtures({ mute: true });
-const expenseMatcher = (data?: Partial<CreateExpense>) => ({
-  _id: expect.stringMatching(/[\da-f]{24}/),
+const expenseMatcher = (data?: Partial<CreateExpense>): ExpenseJson => ({
+  id: expect.stringMatching(/[\da-f]{24}/),
   name: data?.name ?? expect.any(String),
   amount: data?.amount ?? expect.any(Number),
   description: data?.description ?? expect.any(String),
@@ -28,7 +30,6 @@ const expenseMatcher = (data?: Partial<CreateExpense>) => ({
   updatedAt: expect.stringMatching(
     /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/,
   ),
-  __v: data ? 0 : expect.any(Number),
 });
 
 describe('/api/expenses', () => {
@@ -37,7 +38,7 @@ describe('/api/expenses', () => {
   let agent: SuperAgentTest;
 
   beforeAll(async () => {
-    cookie = await createCookieFor(users[1]);
+    cookie = await createCookieFor(new User(users[1]));
     await fixtures.connect(process.env.MONGO_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -247,7 +248,7 @@ describe('/api/expenses', () => {
     let agent: SuperAgentTest;
 
     beforeAll(async () => {
-      cookie = await createCookieFor(users[0]);
+      cookie = await createCookieFor(new User(users[0]));
     });
 
     beforeEach(async () => {
