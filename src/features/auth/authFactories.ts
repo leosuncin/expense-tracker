@@ -1,8 +1,8 @@
 import * as Factory from 'factory.ts';
 import * as faker from 'faker';
 
-import type { User } from '@app/features/auth/authApi';
 import type { LoginUser, RegisterUser } from '@app/features/auth/authSchemas';
+import type { UserJson as User } from '@app/features/auth/User';
 
 export const loginFactory = Factory.Sync.makeFactory<LoginUser>({
   email: Factory.each(() => faker.internet.email().toLowerCase()),
@@ -16,8 +16,7 @@ export const registerFactory = Factory.Sync.makeFactory<RegisterUser>({
 });
 
 export const userFactory = Factory.Sync.makeFactory<User>({
-  _id: Factory.each(() => faker.datatype.hexaDecimal(24)),
-  __v: 0,
+  id: Factory.each(() => faker.datatype.hexaDecimal(24)),
   name: Factory.each(() => faker.name.findName()),
   email: Factory.each(() => faker.internet.email().toLowerCase()),
   isAdmin: Factory.each(() => faker.datatype.boolean()),

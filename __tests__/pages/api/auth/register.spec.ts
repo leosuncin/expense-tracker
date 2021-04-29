@@ -6,6 +6,7 @@ import supertest from 'supertest';
 
 import { disconnectDB } from '@app/app/db';
 import { registerFactory } from '@app/features/auth/authFactories';
+import type { UserJson } from '@app/features/auth/User';
 import registerHandler from '@app/pages/api/auth/register';
 import { createServer } from '@app/utils/testUtils';
 
@@ -43,9 +44,8 @@ describe('[POST] /api/auth/register', () => {
       .expect(StatusCodes.CREATED)
       .expect('Content-Type', /json/);
 
-    expect(result.body).toMatchObject({
-      _id: expect.any(String),
-      __v: expect.any(Number),
+    expect(result.body).toMatchObject<UserJson>({
+      id: expect.stringMatching(/[\da-f]{24}/),
       name: body.name,
       email: body.email,
       isAdmin: false,

@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import type { LeanDocument } from 'mongoose';
 import connect, { NextHandler } from 'next-connect';
 
-import type { User } from '@app/features/auth/User';
+import type { UserJson as User } from '@app/features/auth/User';
 import { Expense } from '@app/features/expenses/Expense';
 import {
   CreateExpense,
@@ -34,7 +34,7 @@ const createExpenseHandler: ApiHandler<CreateExpense, ExpenseResponse> = async (
 ) => {
   // @ts-expect-error Is already verified by a middleware
   const author: User = request.session.get<User>('user');
-  const expense = new Expense({ ...request.body, author: author._id });
+  const expense = new Expense({ ...request.body, author: author.id });
 
   await expense.save();
 
@@ -49,7 +49,7 @@ const findExpensesHandler: ApiHandler<never, ExpenseResponse[]> = async (
 ) => {
   // @ts-expect-error Is already verified by a middleware
   const author: User = request.session.get<User>('user');
-  const expenses = await Expense.find({ author: author._id }).sort({
+  const expenses = await Expense.find({ author: author.id }).sort({
     createdAt: 'desc',
   });
 

@@ -3,17 +3,8 @@ import { replace } from 'connected-next-router';
 
 import { AppDispatch } from '@app/app/store';
 import type { LoginUser, RegisterUser } from '@app/features/auth/authSchemas';
+import type { UserJson as User } from '@app/features/auth/User';
 import type { ErrorResponse } from '@app/utils/middleware';
-
-export type User = {
-  name: string;
-  email: string;
-  isAdmin: boolean;
-  _id: string;
-  __v: number;
-  createdAt: string;
-  updatedAt: string;
-};
 
 export const registerUser: AsyncThunkPayloadCreator<
   User,

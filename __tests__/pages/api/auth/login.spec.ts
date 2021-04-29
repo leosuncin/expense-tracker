@@ -6,6 +6,7 @@ import supertest from 'supertest';
 
 import { disconnectDB } from '@app/app/db';
 import { loginFactory } from '@app/features/auth/authFactories';
+import type { UserJson } from '@app/features/auth/User';
 import loginHandler from '@app/pages/api/auth/login';
 import { createServer } from '@app/utils/testUtils';
 
@@ -46,9 +47,8 @@ describe('[POST] /api/auth/login', () => {
       .expect(StatusCodes.OK)
       .expect('Content-Type', /json/);
 
-    expect(result.body).toMatchObject({
-      _id: expect.any(String),
-      __v: expect.any(Number),
+    expect(result.body).toMatchObject<UserJson>({
+      id: expect.stringMatching(/[\da-f]{24}/),
       name: expect.any(String),
       email: body.email,
       isAdmin: expect.any(Boolean),
