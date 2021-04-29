@@ -4,6 +4,7 @@ import {
   createAsyncThunk,
   createSlice,
 } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 
 import type { AppState } from '@app/app/store';
 import {
@@ -40,6 +41,10 @@ const authSlice = createSlice({
     },
     setError(state, action: PayloadAction<string>) {
       state.error = action.payload;
+    },
+    setUser(state, action: PayloadAction<User>) {
+      state.user = action.payload;
+      state.isAuthenticated = true;
     },
   },
   extraReducers: (builder) => {
@@ -110,10 +115,18 @@ const authSlice = createSlice({
       .addCase(register.rejected, buildErrorState)
       .addCase(login.rejected, buildErrorState)
       .addCase(logout.rejected, buildLogoutState);
+
+    builder.addMatcher(
+      (action) => action.type === HYDRATE,
+      (state, action: PayloadAction<AppState>) => ({
+        ...state,
+        ...action.payload.auth,
+      }),
+    );
   },
 });
 
-export const { clearError, setError } = authSlice.actions;
+export const { clearError, setError, setUser } = authSlice.actions;
 
 export const selectAuth = (state: AppState) => state.auth;
 

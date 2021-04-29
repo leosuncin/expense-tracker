@@ -7,7 +7,7 @@ export interface Expense extends Document {
   name: string;
   amount: number;
   description?: string;
-  author: User;
+  author: User | Schema.Types.ObjectId | string;
 }
 
 const expenseSchema = new Schema<Expense>(
