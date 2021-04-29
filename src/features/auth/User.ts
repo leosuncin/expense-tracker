@@ -1,16 +1,33 @@
 import bcrypt from 'bcryptjs';
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose from 'mongoose';
+import type { Document, LeanDocument, ToObjectOptions, Types } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
-export interface User extends Document {
+export interface User {
   name: string;
   email: string;
   password: string;
   isAdmin: boolean;
-  checkPassword(plainPassword: string): Promise<boolean>;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const userSchema = new Schema<User>(
+export interface UserDocument extends User, Document<Types.ObjectId> {
+  checkPassword(plainPassword: string): Promise<boolean>;
+  toJSON<Type extends UserJson>(options?: ToObjectOptions): Type;
+}
+
+export interface UserJson
+  extends Omit<
+    LeanDocument<UserDocument>,
+    'password' | '_id' | '__v' | 'createdAt' | 'updatedAt' | 'checkPassword'
+  > {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const UserSchema = new mongoose.Schema<UserDocument>(
   {
     name: {
       type: String,
@@ -33,11 +50,23 @@ const userSchema = new Schema<User>(
   },
   {
     timestamps: true,
+    toJSON: {
+      transform(_, returnValue) {
+        returnValue.id = returnValue._id.toHexString();
+        returnValue.createdAt = returnValue.createdAt.toISOString();
+        returnValue.updatedAt = returnValue.updatedAt.toISOString();
+        delete returnValue._id;
+        delete returnValue.__v;
+        delete returnValue.password;
+
+        return returnValue;
+      },
+    },
   },
 );
 
-userSchema.plugin(
-  uniqueValidator as Parameters<typeof userSchema['plugin']>[0],
+UserSchema.plugin(
+  uniqueValidator as Parameters<typeof UserSchema['plugin']>[0],
   { message: 'is already taken' },
 );
 
@@ -47,20 +76,11 @@ userSchema.plugin(
  * @param {String} plainPassword Plain password
  * @returns {Promise<boolean>}
  */
-userSchema.methods.checkPassword = async function (plainPassword: string) {
+UserSchema.methods.checkPassword = async function (plainPassword: string) {
   return bcrypt.compare(plainPassword, this.password);
 };
 
-userSchema.methods.toJSON = function () {
-  const object = this.toObject();
-  const user = JSON.parse(JSON.stringify(object));
-
-  delete user.password;
-
-  return user;
-};
-
-userSchema.pre('save', async function (next) {
+UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     next();
     return;
@@ -79,5 +99,4 @@ if (
   mongoose.deleteModel('User');
 }
 
-// eslint-disable-next-line no-redeclare
-export const User = mongoose.model<User>('User', userSchema);
+export default mongoose.model<UserDocument>('User', UserSchema);

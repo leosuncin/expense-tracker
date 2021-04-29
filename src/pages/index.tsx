@@ -2,8 +2,8 @@ import type { GetServerSidePropsResult, NextPage } from 'next';
 import { applySession } from 'next-iron-session';
 
 import { wrapper } from '@app/app/store';
-import type { User } from '@app/features/auth/authApi';
 import { setUser } from '@app/features/auth/authSlice';
+import type { UserJson } from '@app/features/auth/User';
 import AddExpense from '@app/features/expenses/AddExpense';
 import { Expense } from '@app/features/expenses/Expense';
 import { setExpenses } from '@app/features/expenses/expenseSlice';
@@ -23,7 +23,7 @@ const IndexPage: NextPage = () => {
 export const getServerSideProps = wrapper.getServerSideProps(
   async ({ store, req, res }): Promise<GetServerSidePropsResult<unknown>> => {
     await applySession(req, res, sessionOptions);
-    const author = (req as ApiRequest).session.get<User>('user');
+    const author = (req as ApiRequest).session.get<UserJson>('user');
 
     if (!author)
       return {
@@ -33,7 +33,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
         },
       };
 
-    const expenses = (await Expense.find({ author: author._id })).map(
+    const expenses = (await Expense.find({ author: author.id })).map(
       (expense) =>
         expense.toJSON({
           transform: (expense) => JSON.parse(JSON.stringify(expense)),

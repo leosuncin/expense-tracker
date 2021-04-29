@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import connect from 'next-connect';
 
 import { LoginUser, loginSchema } from '@app/features/auth/authSchemas';
-import { User } from '@app/features/auth/User';
+import User, { UserJson } from '@app/features/auth/User';
 import {
   ApiHandler,
   databaseMiddleware,
@@ -31,10 +31,10 @@ const loginHandler: ApiHandler<LoginUser> = async (request, response) => {
     return;
   }
 
-  request.session.set('user', user.toJSON());
+  request.session.set('user', user.toJSON<UserJson>());
   await request.session.save();
 
-  response.json(user.toJSON());
+  response.json(user.toJSON<UserJson>());
 };
 
 export default connect({ onError: errorMiddleware })

@@ -1,13 +1,13 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-import type { User } from '@app/features/auth/User';
+import type { UserDocument } from '@app/features/auth/User';
 import { centsToDollars, dollarsToCents } from '@app/utils/helpers';
 
 export interface Expense extends Document {
   name: string;
   amount: number;
   description?: string;
-  author: User | Schema.Types.ObjectId | string;
+  author: UserDocument['_id'] | UserDocument | string;
 }
 
 const expenseSchema = new Schema<Expense>(

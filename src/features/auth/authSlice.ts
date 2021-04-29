@@ -8,11 +8,11 @@ import { HYDRATE } from 'next-redux-wrapper';
 
 import type { AppState } from '@app/app/store';
 import {
-  User,
   loginUser,
   logoutUser,
   registerUser,
 } from '@app/features/auth/authApi';
+import type { UserJson as User } from '@app/features/auth/User';
 
 export interface AuthState {
   isAuthenticated: boolean;
