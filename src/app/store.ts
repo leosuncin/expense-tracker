@@ -7,8 +7,15 @@ import {
   configureStore,
   getDefaultMiddleware,
 } from '@reduxjs/toolkit';
-import { createRouterMiddleware, routerReducer } from 'connected-next-router';
+import {
+  createRouterMiddleware,
+  initialRouterState,
+  routerReducer,
+} from 'connected-next-router';
 import type { RouterState } from 'connected-next-router/types';
+import { createWrapper } from 'next-redux-wrapper';
+import type { AppContext } from 'next/app';
+import Router from 'next/router';
 
 import authReducer, { AuthState } from '@app/features/auth/authSlice';
 import expensesReducer, {
@@ -29,8 +36,6 @@ export function makeStore(preloadedState?: DeepPartial<AppState>) {
   });
 }
 
-const store = makeStore();
-
 export type AppState = {
   auth: AuthState;
   router: RouterState;
@@ -48,4 +53,18 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >;
 
-export default store;
+export const wrapper = createWrapper(
+  (context) => {
+    let initialState: DeepPartial<AppState> = {};
+    const { asPath } = (context as AppContext).ctx ?? Router.router ?? {};
+
+    if (asPath) {
+      initialState = {
+        router: initialRouterState(asPath),
+      };
+    }
+
+    return makeStore(initialState);
+  },
+  { debug: true },
+);
