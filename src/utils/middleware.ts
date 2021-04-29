@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { Error as MongooseError, isValidObjectId } from 'mongoose';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { NextHandler } from 'next-connect';
-import { Session, ironSession } from 'next-iron-session';
+import { Session, SessionOptions, ironSession } from 'next-iron-session';
 import { ZodError, ZodType } from 'zod';
 
 import { connectDB } from '@app/app/db';
@@ -72,11 +72,7 @@ export function errorMiddleware(
   response.status(statusCode).json({ message, statusCode, errors });
 }
 
-export const sessionMiddleware: (
-  request: ApiRequest,
-  response: NextApiResponse,
-  next: NextHandler,
-) => void | Promise<void> = ironSession({
+export const sessionOptions: SessionOptions = {
   cookieName: 'app-session',
   password: process.env.SECRET_COOKIE_PASSWORD,
   // If your localhost is served on http:// then disable the secure flag
@@ -84,7 +80,13 @@ export const sessionMiddleware: (
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',
   },
-});
+};
+
+export const sessionMiddleware: (
+  request: ApiRequest,
+  response: NextApiResponse,
+  next: NextHandler,
+) => void | Promise<void> = ironSession(sessionOptions);
 
 export function validationMiddleware<Schema extends Record<string, unknown>>(
   schema: ZodType<Schema>,

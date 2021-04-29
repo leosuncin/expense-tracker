@@ -5,6 +5,7 @@ import {
   createEntityAdapter,
   createSlice,
 } from '@reduxjs/toolkit';
+import { HYDRATE } from 'next-redux-wrapper';
 
 import type { AppState } from '@app/app/store';
 import * as api from '@app/features/expenses/expenseApi';
@@ -48,6 +49,7 @@ const expensesSlice = createSlice({
       delete state.error;
       delete state.errors;
     },
+    setExpenses: expensesAdapter.setAll,
   },
   extraReducers: (builder) => {
     function buildLoadingState(state: ExpenseState) {
@@ -114,10 +116,18 @@ const expensesSlice = createSlice({
       state.isLoading = false;
     });
     builder.addCase(removeExpense.rejected, buildErrorState);
+
+    builder.addMatcher(
+      (action) => action.type === HYDRATE,
+      (state, action: PayloadAction<AppState>) => ({
+        ...state,
+        ...action.payload.expenses,
+      }),
+    );
   },
 });
 
-export const { clearErrors } = expensesSlice.actions;
+export const { clearErrors, setExpenses } = expensesSlice.actions;
 
 const selectors = expensesAdapter.getSelectors(
   (state: AppState) => state.expenses,
