@@ -5,7 +5,6 @@ import { createExpenseFactory } from '@app/features/expenses/expenseFactories';
 describe('Expense tracker', () => {
   beforeEach(() => {
     cy.task('loadFixtures');
-    cy.intercept('GET', '**/api/expenses').as('findExpenses');
     cy.intercept('POST', '**/api/expenses').as('createExpense');
   });
 
@@ -15,9 +14,6 @@ describe('Expense tracker', () => {
     });
 
     it('redirects to login', () => {
-      cy.wait('@findExpenses')
-        .its('response.statusCode')
-        .should('equal', StatusCodes.UNAUTHORIZED);
       cy.location('pathname').should('equal', '/login');
     });
   });
@@ -29,7 +25,6 @@ describe('Expense tracker', () => {
     });
 
     it('list the expenses', () => {
-      cy.wait('@findExpenses');
       cy.findAllByRole('rowgroup').last().should('not.be.empty');
     });
 
