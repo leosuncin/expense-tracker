@@ -48,6 +48,7 @@
     "next": "^10.1.0",
     "next-connect": "^0.10.1",
     "next-iron-session": "^4.1.0",
+    "next-redux-wrapper": "^6.0.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
     "react-hook-form": "^7.2.0",
