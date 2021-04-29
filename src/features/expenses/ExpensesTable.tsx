@@ -1,6 +1,6 @@
 import { useAppSelector } from '@app/app/hooks';
+import type { ExpenseJson as Expense } from '@app/features/expenses/Expense';
 import { selectExpenses } from '@app/features/expenses/expenseSlice';
-import type { ExpenseResponse as Expense } from '@app/pages/api/expenses/[[...id]]';
 
 function ExpenseRow({ name, amount, description, createdAt }: Expense) {
   return (
@@ -28,7 +28,7 @@ function ExpensesTable() {
       </thead>
       <tbody>
         {expenses.map((expense) => (
-          <ExpenseRow key={expense._id} {...expense} />
+          <ExpenseRow key={expense.id} {...expense} />
         ))}
       </tbody>
     </table>

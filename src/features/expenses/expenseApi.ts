@@ -3,12 +3,12 @@ import { push } from 'connected-next-router';
 
 import type { AppDispatch, AppState } from '@app/app/store';
 import { setError as setAuthError } from '@app/features/auth/authSlice';
+import type { ExpenseJson as Expense } from '@app/features/expenses/Expense';
 import type {
   CreateExpense,
   UpdateExpense,
 } from '@app/features/expenses/expenseSchemas';
 import { selectExpense } from '@app/features/expenses/expenseSlice';
-import type { ExpenseResponse as Expense } from '@app/pages/api/expenses/[[...id]]';
 import type { ErrorResponse } from '@app/utils/middleware';
 
 export const createExpense: AsyncThunkPayloadCreator<
@@ -61,7 +61,7 @@ export const findExpenses: AsyncThunkPayloadCreator<
 
 export const getExpense: AsyncThunkPayloadCreator<
   Expense,
-  Expense['_id'],
+  Expense['id'],
   { rejectValue: ErrorResponse; dispatch: AppDispatch; state: AppState }
 > = async (id, thunkApi) => {
   const expense = selectExpense(thunkApi.getState(), id);
@@ -86,9 +86,9 @@ export const getExpense: AsyncThunkPayloadCreator<
 
 export const updateExpense: AsyncThunkPayloadCreator<
   Expense,
-  UpdateExpense & { _id: Expense['_id'] },
+  UpdateExpense & { id: Expense['id'] },
   { rejectValue: ErrorResponse; dispatch: AppDispatch }
-> = async ({ _id: id, ...body }, thunkApi) => {
+> = async ({ id, ...body }, thunkApi) => {
   const response = await fetch(`/api/expenses/${id}`, {
     method: 'PUT',
     headers: {
@@ -113,7 +113,7 @@ export const updateExpense: AsyncThunkPayloadCreator<
 
 export const removeExpense: AsyncThunkPayloadCreator<
   void,
-  Expense['_id'],
+  Expense['id'],
   { rejectValue: ErrorResponse; dispatch: AppDispatch }
 > = async (id, thunkApi) => {
   const response = await fetch(`/api/expenses/${id}`, { method: 'DELETE' });

@@ -1,16 +1,35 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import type { Document, LeanDocument, ToObjectOptions, Types } from 'mongoose';
+import mongoose from 'mongoose';
 
-import type { UserDocument } from '@app/features/auth/User';
-import { centsToDollars, dollarsToCents } from '@app/utils/helpers';
+import type { UserDocument as User } from '@app/features/auth/User';
+import {
+  centsToDollars,
+  dollarsToCents,
+  transformToJSON,
+} from '@app/utils/helpers';
 
-export interface Expense extends Document {
+export interface Expense {
   name: string;
   amount: number;
   description?: string;
-  author: UserDocument['_id'] | UserDocument | string;
+  author: User | User['_id'] | string;
 }
 
-const expenseSchema = new Schema<Expense>(
+export interface ExpenseDocument extends Expense, Document<Types.ObjectId> {
+  toJSON<Type extends ExpenseJson>(options?: ToObjectOptions): Type;
+}
+
+export interface ExpenseJson
+  extends Omit<
+    LeanDocument<ExpenseDocument>,
+    '_id' | '__v' | 'createdAt' | 'updatedAt'
+  > {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const expenseSchema = new mongoose.Schema<ExpenseDocument>(
   {
     name: {
       type: String,
@@ -27,12 +46,12 @@ const expenseSchema = new Schema<Expense>(
       trim: true,
     },
     author: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: 'You must supply an author',
     },
   },
-  { timestamps: true },
+  { timestamps: true, toJSON: { transform: transformToJSON } },
 );
 
 expenseSchema.pre('save', function (next) {
@@ -55,5 +74,4 @@ if (
   mongoose.deleteModel('Expense');
 }
 
-// eslint-disable-next-line no-redeclare
-export const Expense = mongoose.model<Expense>('Expense', expenseSchema);
+export default mongoose.model<ExpenseDocument>('Expense', expenseSchema);
