@@ -15,7 +15,7 @@ import { createCookieFor, createServer } from '@app/utils/testUtils';
 import users from '../../../fixtures/users.js';
 
 jest.setTimeout(10e3);
-const fixtures = new Fixtures({ mute: true });
+const fixtures = new Fixtures({ mute: true, filter: 'expenses.*' });
 const expenseMatcher = (data?: Partial<CreateExpense>): ExpenseJson => ({
   id: expect.stringMatching(/[\da-f]{24}/),
   name: data?.name ?? expect.any(String),
