@@ -92,6 +92,7 @@ describe('<AddExpense />', () => {
     user.type(screen.getByLabelText(/name/i), data.name);
     user.type(screen.getByLabelText(/amount/i), String(data.amount));
     user.type(screen.getByLabelText(/description/i), String(data.description));
+    user.type(screen.getByLabelText(/date/i), String(data.date));
     user.click(screen.getByRole('button', { name: /add expense/i }));
 
     await waitFor(() => {

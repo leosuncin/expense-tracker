@@ -12,6 +12,7 @@ export interface Expense {
   name: string;
   amount: number;
   description?: string;
+  date: Date;
   author: User | User['_id'] | string;
 }
 
@@ -22,9 +23,10 @@ export interface ExpenseDocument extends Expense, Document<Types.ObjectId> {
 export interface ExpenseJson
   extends Omit<
     LeanDocument<ExpenseDocument>,
-    '_id' | '__v' | 'createdAt' | 'updatedAt'
+    '_id' | '__v' | 'date' | 'createdAt' | 'updatedAt'
   > {
   id: string;
+  date: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -44,6 +46,11 @@ const expenseSchema = new mongoose.Schema<ExpenseDocument>(
     description: {
       type: String,
       trim: true,
+    },
+    date: {
+      type: Date,
+      default: () => new Date(),
+      transform: (value: Date) => value.toISOString(),
     },
     author: {
       type: mongoose.Schema.Types.ObjectId,

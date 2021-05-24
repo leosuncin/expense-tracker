@@ -15,6 +15,7 @@ export const expenseFactory = Factory.Sync.makeFactory<Expense>({
   name: faker.commerce.productName(),
   amount: Number.parseFloat(faker.commerce.price()),
   description: faker.commerce.productDescription(),
+  date: Factory.each(() => faker.date.recent().toISOString()),
   author: Factory.each(() => faker.datatype.hexaDecimal(24)),
   createdAt: Factory.each(() => faker.date.past().toISOString()),
   updatedAt: Factory.each(() => faker.date.past().toISOString()),

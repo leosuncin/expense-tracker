@@ -96,8 +96,21 @@ export function validationMiddleware<Schema extends Record<string, unknown>>(
     _: NextApiResponse,
     next: NextHandler,
   ) => {
+    // Source https://stackoverflow.com/a/3143231
+    const isoDateRegex = /\d{4}-[01]\d-[0-3]\dT[0-2](?:\d:[0-5]){2}\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/;
     try {
       if (['POST', 'PUT', 'PATCH'].includes(request.method)) {
+        if (
+          typeof request.body.date === 'string' &&
+          isoDateRegex.test(request.body.date)
+        ) {
+          // Cast `date` to Date due zod does not support casting or transformation
+          request.body = schema.parse({
+            ...request.body,
+            date: new Date(request.body.date),
+          });
+        }
+
         request.body = schema.parse(request.body);
       }
 
