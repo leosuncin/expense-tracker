@@ -53,18 +53,15 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >;
 
-export const wrapper = createWrapper(
-  (context) => {
-    let initialState: DeepPartial<AppState> = {};
-    const { asPath } = (context as AppContext).ctx ?? Router.router ?? {};
+export const wrapper = createWrapper((context) => {
+  let initialState: DeepPartial<AppState> = {};
+  const { asPath } = (context as AppContext).ctx ?? Router.router ?? {};
 
-    if (asPath) {
-      initialState = {
-        router: initialRouterState(asPath),
-      };
-    }
+  if (asPath) {
+    initialState = {
+      router: initialRouterState(asPath),
+    };
+  }
 
-    return makeStore(initialState);
-  },
-  { debug: true },
-);
+  return makeStore(initialState);
+});

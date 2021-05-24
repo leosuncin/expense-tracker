@@ -8,6 +8,13 @@ export const createExpenseSchema = z.object({
     z.null(),
     z.undefined(),
   ]),
+  date: z.union([
+    z.date().refine((value) => value <= new Date(), {
+      message: 'Date needs to be in the past or today',
+    }),
+    z.null(),
+    z.undefined(),
+  ]),
 });
 
 export type CreateExpense = z.infer<typeof createExpenseSchema>;

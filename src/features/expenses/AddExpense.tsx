@@ -32,6 +32,21 @@ function AddExpense() {
       ) : null}
       <fieldset aria-disabled={formState.isSubmitting}>
         <div>
+          <label htmlFor="add-expense-date">
+            Date:
+            <input
+              id="add-expense-date"
+              type="date"
+              defaultValue={new Date().toISOString().slice(0, 10)}
+              aria-invalid={Boolean(formState.errors.date)}
+              {...register('date', { valueAsDate: true })}
+            />
+          </label>
+          {formState.errors.date ? (
+            <span role="alert">{formState.errors.date.message}</span>
+          ) : null}
+        </div>
+        <div>
           <label htmlFor="add-expense-name">
             Name:
             <input

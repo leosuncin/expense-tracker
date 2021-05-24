@@ -1,5 +1,6 @@
 import http from 'http';
 
+import users from 'fixtures/users.js';
 import { StatusCodes } from 'http-status-codes';
 import Fixtures from 'node-mongodb-fixtures';
 import supertest, { SuperAgentTest } from 'supertest';
@@ -12,8 +13,6 @@ import type { CreateExpense } from '@app/features/expenses/expenseSchemas';
 import expensesHandler from '@app/pages/api/expenses/[[...id]]';
 import { createCookieFor, createServer } from '@app/utils/testUtils';
 
-import users from '../../../fixtures/users.js';
-
 jest.setTimeout(10e3);
 const fixtures = new Fixtures({ mute: true, filter: 'expenses.*' });
 const expenseMatcher = (data?: Partial<CreateExpense>): ExpenseJson => ({
@@ -24,6 +23,7 @@ const expenseMatcher = (data?: Partial<CreateExpense>): ExpenseJson => ({
   author: expect.stringMatching(
     /6083bb0dadd37b9dbd7c45da|6085f5ac58dad1da02aa9fe3/,
   ),
+  date: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/),
   createdAt: expect.stringMatching(
     /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/,
   ),
