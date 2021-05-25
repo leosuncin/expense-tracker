@@ -53,7 +53,7 @@
     "react-dom": "^17.0.0",
     "react-hook-form": "^7.2.0",
     "react-redux": "^7.2.0",
-    "zod": "^1.11.0"
+    "zod": "^3.0.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.0",
