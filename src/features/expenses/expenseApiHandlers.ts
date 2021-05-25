@@ -11,18 +11,16 @@ import type {
 } from '@app/features/expenses/expenseSchemas';
 import type { ApiHandler } from '@app/utils/middleware';
 
-export const createExpenseHandler: ApiHandler<
-  CreateExpense,
-  ExpenseJson
-> = async (request, response) => {
-  // @ts-expect-error Is already verified by a middleware
-  const author: User = request.session.get<User>('user');
-  const expense = new Expense({ ...request.body, author: author.id });
+export const createExpenseHandler: ApiHandler<CreateExpense, ExpenseJson> =
+  async (request, response) => {
+    // @ts-expect-error Is already verified by a middleware
+    const author: User = request.session.get<User>('user');
+    const expense = new Expense({ ...request.body, author: author.id });
 
-  await expense.save();
+    await expense.save();
 
-  response.status(StatusCodes.CREATED).json(expense.toJSON<ExpenseJson>());
-};
+    response.status(StatusCodes.CREATED).json(expense.toJSON<ExpenseJson>());
+  };
 
 export const findExpensesHandler: ApiHandler<never, ExpenseJson[]> = async (
   request,
@@ -48,21 +46,19 @@ export const getExpenseHandler: ApiHandler<never, ExpenseJson> = async (
   response.json(expense.toJSON<ExpenseJson>());
 };
 
-export const updateExpenseHandler: ApiHandler<
-  UpdateExpense,
-  ExpenseJson
-> = async (request, response) => {
-  const expenseId = request.params.id;
-  // @ts-expect-error it exists, is checked in the middleware
-  const expense: ExpenseDocument = await Expense.findById(expenseId);
+export const updateExpenseHandler: ApiHandler<UpdateExpense, ExpenseJson> =
+  async (request, response) => {
+    const expenseId = request.params.id;
+    // @ts-expect-error it exists, is checked in the middleware
+    const expense: ExpenseDocument = await Expense.findById(expenseId);
 
-  expense.name = request.body.name ?? expense.name;
-  expense.amount = request.body.amount ?? expense.amount;
-  expense.description = request.body.description ?? expense.description;
-  await expense.save();
+    expense.name = request.body.name ?? expense.name;
+    expense.amount = request.body.amount ?? expense.amount;
+    expense.description = request.body.description ?? expense.description;
+    await expense.save();
 
-  response.json(expense.toJSON<ExpenseJson>());
-};
+    response.json(expense.toJSON<ExpenseJson>());
+  };
 
 export const removeExpenseHandler: ApiHandler = async (request, response) => {
   const expenseId = request.params.id;

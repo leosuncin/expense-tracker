@@ -97,7 +97,8 @@ export function validationMiddleware<Schema extends Record<string, unknown>>(
     next: NextHandler,
   ) => {
     // Source https://stackoverflow.com/a/3143231
-    const isoDateRegex = /\d{4}-[01]\d-[0-3]\dT[0-2](?:\d:[0-5]){2}\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/;
+    const isoDateRegex =
+      /\d{4}-[01]\d-[0-3]\dT[0-2](?:\d:[0-5]){2}\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/;
     try {
       if (['POST', 'PUT', 'PATCH'].includes(request.method)) {
         if (

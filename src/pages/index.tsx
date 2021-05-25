@@ -32,9 +32,9 @@ export const getServerSideProps = wrapper.getServerSideProps(
         },
       };
 
-    const expenses = (
-      await Expense.find({ author: author.id })
-    ).map((expense) => expense.toJSON<ExpenseJson>());
+    const expenses = (await Expense.find({ author: author.id })).map(
+      (expense) => expense.toJSON<ExpenseJson>(),
+    );
     store.dispatch(setUser(author));
     store.dispatch(setExpenses(expenses));
 
