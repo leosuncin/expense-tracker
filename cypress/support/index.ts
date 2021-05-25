@@ -21,10 +21,26 @@ Cypress.Commands.add('customCommand', () => {
 });
 
 Cypress.Commands.add('login', (email: string, password: string) => {
+  let user: Record<string, unknown>;
+  let status: number;
   Cypress.Cookies.preserveOnce('app-session');
+  const log = Cypress.log({
+    name: 'login',
+    message: `login with ${email}`,
+    autoEnd: false,
+    consoleProps() {
+      return { user, status };
+    },
+  });
 
   return cy
     .clearCookies()
     .request('POST', '/api/auth/login', { email, password })
-    .its('body');
+    .then((response: Cypress.Response) => {
+      user = response.body;
+      status = response.status;
+      log.end();
+
+      return user;
+    });
 });
