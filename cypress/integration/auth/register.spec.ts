@@ -13,9 +13,11 @@ describe('Register page', () => {
   it('shows the validation errors', () => {
     cy.findByRole('button', { name: /register/i }).click();
 
-    cy.findByText('Name is required').should('be.visible');
+    cy.findByText('Name has to be at least 2 letters').should('be.visible');
     cy.findByText('Email is required').should('be.visible');
-    cy.findByText('Password is required').should('be.visible');
+    cy.findByText('Password has to be at least 12 characters').should(
+      'be.visible',
+    );
 
     cy.findByLabelText(/name/i).type('a');
     cy.findByLabelText(/email/i).type('email');

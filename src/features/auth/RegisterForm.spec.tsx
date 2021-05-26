@@ -26,13 +26,13 @@ describe('<RegisterForm />', () => {
     user.click(screen.getByRole('button', { name: /register/i }));
 
     await expect(
-      screen.findByText('Name is required'),
+      screen.findByText('Name has to be at least 2 letters'),
     ).resolves.toBeInTheDocument();
     await expect(
       screen.findByText('Email is required'),
     ).resolves.toBeInTheDocument();
     await expect(
-      screen.findByText('Password is required'),
+      screen.findByText('Password has to be at least 12 characters'),
     ).resolves.toBeInTheDocument();
 
     user.type(screen.getByLabelText(/name/i), 'a');
