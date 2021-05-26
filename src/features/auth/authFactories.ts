@@ -1,5 +1,5 @@
 import * as Factory from 'factory.ts';
-import * as faker from 'faker';
+import faker from 'faker';
 
 import type { LoginUser, RegisterUser } from '@app/features/auth/authSchemas';
 import type { UserJson as User } from '@app/features/auth/User';

@@ -1,5 +1,5 @@
 import * as Factory from 'factory.ts';
-import * as faker from 'faker';
+import faker from 'faker';
 
 import type { ExpenseJson as Expense } from '@app/features/expenses/Expense';
 import type { CreateExpense } from '@app/features/expenses/expenseSchemas';
