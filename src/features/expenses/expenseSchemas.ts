@@ -8,7 +8,8 @@ export const createExpenseSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   amount: z
     .number()
-    .positive({ message: 'Amount needs to be a positive number' }),
+    .positive({ message: 'Amount needs to be a positive number' })
+    .transform((value) => Math.round(value * 100) / 100),
   description: z
     .optional(z.string().min(1, { message: 'Description can not be empty' }))
     .nullable(),
