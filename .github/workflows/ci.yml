@@ -63,8 +63,12 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           build: npm run build
-          start: npm start
+          start: |
+            npm start
+            npx -p https-proxy-cli https-proxy -t http://localhost:3000 -p 3333
           wait-on: http://localhost:3000
+          config: baseUrl=https://localhost:3333
+          env: codeCoverage.url=https://localhost:3333/api/__coverage__
         env:
           NODE_ENV: test
           MONGO_URL: mongodb://localhost:${{ job.services.mongodb.ports[27017] }}/admin
