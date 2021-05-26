@@ -29,7 +29,7 @@ describe('<LoginForm />', () => {
       screen.findByText('Email is required'),
     ).resolves.toBeInTheDocument();
     await expect(
-      screen.findByText('Password is required'),
+      screen.findByText('Password has to be at least 12 characters'),
     ).resolves.toBeInTheDocument();
 
     user.type(screen.getByLabelText(/email/i), 'email');

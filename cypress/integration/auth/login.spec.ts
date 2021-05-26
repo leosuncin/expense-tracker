@@ -14,7 +14,9 @@ describe('Login page', () => {
     cy.findByRole('button', { name: /login/i }).click();
 
     cy.findByText('Email is required').should('be.visible');
-    cy.findByText('Password is required').should('be.visible');
+    cy.findByText('Password has to be at least 12 characters').should(
+      'be.visible',
+    );
 
     cy.findByLabelText(/email/i).type('email');
     cy.findByLabelText(/password/i).type('123456');
