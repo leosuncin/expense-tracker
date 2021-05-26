@@ -42,5 +42,42 @@ describe('Expense tracker', () => {
 
       cy.findByRole('cell', { name: data.name }).should('exist');
     });
+
+    it('show validation errors', () => {
+      cy.findByRole('button', { name: /add expense/i }).click();
+
+      cy.findByText('Name is required').should('be.visible');
+      cy.findByText('Amount needs to be a positive number').should(
+        'be.visible',
+      );
+      cy.findByText('Description can not be empty').should('be.visible');
+
+      cy.findByLabelText(/date/i).clear();
+      cy.findByText('Invalid date').should('be.visible');
+      cy.findByLabelText(/amount/i).type('{selectall}-10');
+      cy.findByText('Amount needs to be a positive number').should(
+        'be.visible',
+      );
+    });
+
+    it('show error when lost session', () => {
+      const data = createExpenseFactory.build();
+
+      cy.findByLabelText(/name/i).type(data.name);
+      cy.findByLabelText(/amount/i).type(String(data.amount));
+      cy.findByLabelText(/description/i).type(String(data.description));
+      cy.clearCookies();
+      cy.findByRole('button', { name: /add expense/i }).click();
+
+      cy.findByText('You must be logged in order to access').should(
+        'be.visible',
+      );
+
+      cy.wait('@createExpense')
+        .its('response.statusCode')
+        .should('equal', StatusCodes.UNAUTHORIZED);
+
+      cy.location('pathname').should('equal', '/login');
+    });
   });
 });
