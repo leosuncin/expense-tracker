@@ -14,12 +14,17 @@ export const createExpenseSchema = z.object({
     .nullable(),
   date: z
     .optional(
-      z.date().or(
-        z
-          .string()
-          .regex(isoDateRegex, { message: 'Date has an invalid format' })
-          .transform((value) => new Date(value)),
-      ),
+      z
+        .date()
+        .or(
+          z
+            .string()
+            .regex(isoDateRegex, { message: 'Date has an invalid format' })
+            .transform((value) => new Date(value)),
+        )
+        .refine((value) => value <= new Date(), {
+          message: 'Date has to be in the past or today',
+        }),
     )
     .nullable(),
 });
