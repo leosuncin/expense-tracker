@@ -7598,9 +7598,9 @@ next-connect@^0.10.1:
     trouter "^3.1.0"
 
 next-iron-session@^4.1.0:
-  version "4.1.13"
-  resolved "https://registry.yarnpkg.com/next-iron-session/-/next-iron-session-4.1.13.tgz#fac2a40c318d0717069a23e2107aa115be361f2c"
-  integrity sha512-CHYeVtpdHDy4OjH1QppR0n2tF4eEp0hFalQIzhqNEPfG4AfbmqiVGZIVTipJRVc7YfCOS3MZx8B5/yKbM8gA7Q==
+  version "4.1.14"
+  resolved "https://registry.yarnpkg.com/next-iron-session/-/next-iron-session-4.1.14.tgz#d49743df7de22ecaa0665507813f258103be9bcf"
+  integrity sha512-Df1m/ohtvgHLqi0ECznxjNDRzTLT1NSXgyuRjLc5spYMCBJQ6yVY0Ah03Lw7/+/9sYBJ00fQjilFQ2Whechhrw==
   dependencies:
     "@types/cookie" "^0.4.0"
     array.prototype.flat "^1.2.4"
