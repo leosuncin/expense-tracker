@@ -1,4 +1,4 @@
-import type { GetServerSidePropsResult, NextPage } from 'next';
+import type { NextPage } from 'next';
 import { applySession } from 'next-iron-session';
 
 import { wrapper } from '@app/app/store';
@@ -20,28 +20,29 @@ const IndexPage: NextPage = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(
-  async ({ store, req, res }): Promise<GetServerSidePropsResult<unknown>> => {
-    await applySession(req, res, sessionOptions);
-    const author = (req as ApiRequest).session.get<UserJson>('user');
+  (store) =>
+    async ({ req, res }) => {
+      await applySession(req, res, sessionOptions);
+      const author = (req as ApiRequest).session.get<UserJson>('user');
 
-    if (!author)
+      if (!author)
+        return {
+          redirect: {
+            destination: '/login',
+            permanent: true,
+          },
+        };
+
+      const expenses = (await Expense.find({ author: author.id })).map(
+        (expense) => expense.toJSON<ExpenseJson>(),
+      );
+      store.dispatch(setUser(author));
+      store.dispatch(setExpenses(expenses));
+
       return {
-        redirect: {
-          destination: '/login',
-          permanent: true,
-        },
+        props: {},
       };
-
-    const expenses = (await Expense.find({ author: author.id })).map(
-      (expense) => expense.toJSON<ExpenseJson>(),
-    );
-    store.dispatch(setUser(author));
-    store.dispatch(setExpenses(expenses));
-
-    return {
-      props: {},
-    };
-  },
+    },
 );
 
 export default IndexPage;
