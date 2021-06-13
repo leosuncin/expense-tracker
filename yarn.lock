@@ -7619,9 +7619,9 @@ next-iron-session@^4.1.0:
     iron-store "^1.3.0"
 
 next-redux-wrapper@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/next-redux-wrapper/-/next-redux-wrapper-7.0.0.tgz#2aa60a4548a0609dc7466e6a3a68bc3a3203a2e0"
-  integrity sha512-ySb8ve8NfJs1//y9SCmlPkRaOhPvDnc4W8TyiTZun/vRrBFraB8bdeMwPcJiiTpOtVpU8OfxNxKXCjVnsRzbZQ==
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/next-redux-wrapper/-/next-redux-wrapper-7.0.1.tgz#63f2a142339b002d4a43d1f2d6ee21939c2777f0"
+  integrity sha512-JY+qnj+RJppCLeK0qwdSoi6bxO2Rc3//dXT70uP0atvjDbMIqoGz7RfWGnQxKn+1GoneRTBY1fwLJwO2Xj+rXg==
 
 next@^10.1.0:
   version "10.2.3"
