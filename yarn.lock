@@ -1760,10 +1760,10 @@
   dependencies:
     "@types/mongodb" "*"
 
-"@types/node@*", "@types/node@^15.0.1":
-  version "15.12.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.12.5.tgz#9a78318a45d75c9523d2396131bd3cca54b2d185"
-  integrity sha512-se3yX7UHv5Bscf8f1ERKvQOD6sTyycH3hdaoozvaLxgUiY5lIGEeH37AD0G0Qi9kPqihPn0HOfd2yaIEN9VwEg==
+"@types/node@*", "@types/node@14.x || 15.x", "@types/node@^15.0.1":
+  version "15.14.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-15.14.1.tgz#4f9d3689532499fdda1c898e19f4593718655e36"
+  integrity sha512-wF6hazbsnwaW3GhK4jFuw5NaLDQVRQ6pWQUGAUrJzxixFkTaODSiAKMPXuHwPEPkAKQWHAzj6uJ5h+3zU9gQxg==
 
 "@types/node@^14.14.31":
   version "14.17.1"
@@ -1808,9 +1808,9 @@
     redux "^4.0.0"
 
 "@types/react@*", "@types/react@^17.0.0":
-  version "17.0.11"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.11.tgz#67fcd0ddbf5a0b083a0f94e926c7d63f3b836451"
-  integrity sha512-yFRQbD+whVonItSk7ZzP/L+gPTJVBkL/7shLEF+i9GC/1cV3JmUxEQz6+9ylhUpWSDuqo1N9qEvqS6vTj4USUA==
+  version "17.0.13"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.13.tgz#6b7c9a8f2868586ad87d941c02337c6888fb874f"
+  integrity sha512-D/G3PiuqTfE3IMNjLn/DCp6umjVCSvtZTPdtAFy5+Ved6CsdRvivfKeCzw79W4AatShtU4nGqgvOv5Gro534vQ==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -7338,11 +7338,12 @@ mongoose-unique-validator@^2.0.3:
     lodash.get "^4.0.2"
 
 mongoose@*, mongoose@^5.12.5:
-  version "5.12.15"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.12.15.tgz#a023afa570c15a00d39315e7c7562c77ceed2857"
-  integrity sha512-GVvxE2/mbUsxAbTtleFlehCNMFlzcgKue/olukIpoN6iw1MYXKodf+ZIRndO+2jzlgbZgiHkAZZJbcFNt1DgHA==
+  version "5.13.2"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.13.2.tgz#1b9095fc6bbbb015ea3bc2a79d6f56025406c769"
+  integrity sha512-sBUKJGpdwZCq9102Lj6ZOaLcW4z/T4TI9aGWrNX5ZlICwChKWG4Wo5qriLImdww3H7bETPW9vYtSiADNlA4wSQ==
   dependencies:
     "@types/mongodb" "^3.5.27"
+    "@types/node" "14.x || 15.x"
     bson "^1.1.4"
     kareem "2.3.2"
     mongodb "3.6.8"
