@@ -1,7 +1,9 @@
 import {
   Action,
   AnyAction,
+  CombinedState,
   DeepPartial,
+  PreloadedState,
   ThunkAction,
   ThunkDispatch,
   configureStore,
@@ -24,7 +26,9 @@ import expensesReducer, {
 
 const routerMiddleware = createRouterMiddleware();
 
-export function makeStore(preloadedState?: DeepPartial<AppState>) {
+export function makeStore(
+  preloadedState?: PreloadedState<CombinedState<AppState>>,
+) {
   return configureStore({
     reducer: {
       auth: authReducer,
@@ -63,5 +67,5 @@ export const wrapper = createWrapper((context) => {
     };
   }
 
-  return makeStore(initialState);
+  return makeStore(initialState as PreloadedState<AppState>);
 });
