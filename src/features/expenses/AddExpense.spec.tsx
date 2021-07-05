@@ -35,7 +35,7 @@ describe('<AddExpense />', () => {
           get: jest.fn(() => ''),
         },
       },
-    );
+    ) as Location;
   });
 
   afterEach(() => {
