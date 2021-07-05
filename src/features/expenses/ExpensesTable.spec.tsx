@@ -28,7 +28,7 @@ describe('<ExpensesTable />', () => {
       ids.push(expense.id);
     }
 
-    const store = makeStore({ expenses: { entities, ids } });
+    const store = makeStore({ expenses: { entities, ids, isLoading: false } });
 
     render(<ExpensesTable />, store);
 
