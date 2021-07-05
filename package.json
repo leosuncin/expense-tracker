@@ -70,7 +70,7 @@
     "@types/jest": "^26.0.0",
     "@types/mongoose": "^5.10.5",
     "@types/mongoose-unique-validator": "^1.0.4",
-    "@types/node": "^15.0.1",
+    "@types/node": "^16.0.0",
     "@types/node-mongodb-fixtures": "^3.2.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
