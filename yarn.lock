@@ -1755,9 +1755,9 @@
     mongoose "*"
 
 "@types/node-mongodb-fixtures@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@types/node-mongodb-fixtures/-/node-mongodb-fixtures-3.2.0.tgz#208e4c6d1b18a6c11ecb1790034f2234b33e3a83"
-  integrity sha512-4AQuzh2mlRIRmSpFM+VtDY+KiFZjms/d1OT4bQK1TsM56urZn0eLGdQsRS/T0FhPsvTWSAoXbpjcIvwhaM1fNg==
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@types/node-mongodb-fixtures/-/node-mongodb-fixtures-3.2.1.tgz#726f6258b11e322efe5a215b6906053619ff4ff8"
+  integrity sha512-itYR3n9PgzrVHTZVSaOPqmoSV8hMRIzOFtlJFWG0rZ/mIULcQvIkEfNPyDIllO/D8ggQLnFy3UUl0Dcgiu4L+A==
   dependencies:
     "@types/mongodb" "*"
 
