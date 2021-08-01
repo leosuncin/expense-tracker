@@ -1710,10 +1710,10 @@
   resolved "https://registry.yarnpkg.com/@types/minimist/-/minimist-1.2.1.tgz#283f669ff76d7b8260df8ab7a4262cc83d988256"
   integrity sha512-fZQQafSREFyuZcdWFAExYjBiCL7AUCdgsk80iO0q4yihYYdcIiH28CcuPTGFgLOCC8RlW49GSQxdHwZP+I7CNg==
 
-"@types/mongodb@*", "@types/mongodb@^3.5.27":
-  version "3.6.16"
-  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.16.tgz#7a48aaeb777f57e4655515ce18acbc68600dfeb9"
-  integrity sha512-D3tM0iRUet3TiIMAdvovxAIRG9gYqFd4j7visGwmPNdQj8Fq/uFFfRxyGCgEwVXAs0NnJPMI/QGVTADxDwhmSQ==
+"@types/mongodb@*", "@types/mongodb@^3.5.27", "@types/mongodb@^3.6.20":
+  version "3.6.20"
+  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.20.tgz#b7c5c580644f6364002b649af1c06c3c0454e1d2"
+  integrity sha512-WcdpPJCakFzcWWD9juKoZbRtQxKIMYF/JIAM4JrNHrMcnJL6/a2NWjXxW7fo9hxboxxkg+icff8d7+WIEvKgYQ==
   dependencies:
     "@types/bson" "*"
     "@types/node" "*"
@@ -1741,11 +1741,11 @@
     mongoose "*"
 
 "@types/node-mongodb-fixtures@^3.2.0":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@types/node-mongodb-fixtures/-/node-mongodb-fixtures-3.2.1.tgz#726f6258b11e322efe5a215b6906053619ff4ff8"
-  integrity sha512-itYR3n9PgzrVHTZVSaOPqmoSV8hMRIzOFtlJFWG0rZ/mIULcQvIkEfNPyDIllO/D8ggQLnFy3UUl0Dcgiu4L+A==
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@types/node-mongodb-fixtures/-/node-mongodb-fixtures-3.2.2.tgz#cb45a34b63e4e325a2da4762a90023d1cd5b2d43"
+  integrity sha512-AytmpUdL+l1NO6abqyov0FCDGAlSN6UX8wS5SeR90tKByyIaXPL6nKIv1LO6fHbt+uVGYPOCvyU8GSMZAdc4nw==
   dependencies:
-    "@types/mongodb" "*"
+    "@types/mongodb" "^3.6.20"
 
 "@types/node@*", "@types/node@^16.0.0":
   version "16.4.10"
