@@ -34,7 +34,7 @@ describe('[POST] /api/auth/register', () => {
     server.close();
   });
 
-  afterAll(() => disconnectDB());
+  afterAll(async () => disconnectDB());
 
   it('creates a new user', async () => {
     const body = registerFactory.build();

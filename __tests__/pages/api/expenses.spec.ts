@@ -58,7 +58,7 @@ describe('/api/expenses', () => {
     server.close();
   });
 
-  afterAll(() => disconnectDB());
+  afterAll(async () => disconnectDB());
 
   it('creates a new expense', async () => {
     const body = createExpenseFactory.build();

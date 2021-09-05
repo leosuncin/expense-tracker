@@ -6,17 +6,18 @@ import mongoose from 'mongoose';
 
 /**
  * Connect to MongoDB.
- * Connection URI is set with environment variable `MONGODB_URL`.
+ *
+ * @params {string} mongoUri Connection string.
  *
  * @returns Promise<typeof mongoose>
  */
-export function connectDB(): Promise<typeof mongoose> | void {
+export async function connectDB(mongoUri: string): Promise<typeof mongoose> {
   const isConnected =
     mongoose.connection.readyState === mongoose.STATES.connected;
 
-  if (isConnected) return;
+  if (isConnected) return mongoose;
 
-  return mongoose.connect(process.env.MONGO_URL, {
+  return mongoose.connect(mongoUri, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -33,7 +34,7 @@ export function connectDB(): Promise<typeof mongoose> | void {
  *
  * @returns Promise<void>
  */
-export function disconnectDB(): Promise<void> | void {
+export async function disconnectDB(): Promise<void> {
   const isDisconnected =
     mongoose.connection.readyState === mongoose.STATES.disconnected;
 
