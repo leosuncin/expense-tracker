@@ -84,7 +84,7 @@ describe('/api/expenses', () => {
       amount: '$ 9.99',
       description: 10,
     },
-  ])('validates the body %p', async (body) => {
+  ])('validates the body %p', async (body: Record<string, unknown>) => {
     await agent
       .post('/api/expenses')
       .send(body)
@@ -155,7 +155,7 @@ describe('/api/expenses', () => {
     {
       description: 'Yes',
     },
-  ])('updates an expense with %p', async (body) => {
+  ])('updates an expense with %p', async (body: Record<string, unknown>) => {
     await agent
       .put('/api/expenses/6084f20f0502be06874d1a85')
       .send(body)
@@ -170,7 +170,7 @@ describe('/api/expenses', () => {
       .delete('/api/expenses/6084f20f0502be06874d1a82')
       .expect(StatusCodes.NO_CONTENT)
       .expect((response) => {
-        expect(response.body).toHaveLength(0);
+        expect(response.noContent).toBe(true);
       });
   });
 
@@ -281,7 +281,7 @@ describe('/api/expenses', () => {
         .delete('/api/expenses/6084f20f0502be06874d1a8e')
         .expect(StatusCodes.NO_CONTENT)
         .expect((response) => {
-          expect(response.body).toHaveLength(0);
+          expect(response.noContent).toBe(true);
         });
     });
   });
