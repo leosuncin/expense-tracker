@@ -10,11 +10,8 @@ import * as fc from 'fast-check';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import createStore from 'iron-store';
 import type { NextApiHandler } from 'next';
-import { RouterContext } from 'next/dist/next-server/lib/router-context';
-import {
-  NextApiRequestQuery,
-  apiResolver,
-} from 'next/dist/next-server/server/api-utils';
+import { NextApiRequestQuery, apiResolver } from 'next/dist/server/api-utils';
+import { RouterContext } from 'next/dist/shared/lib/router-context';
 import type { NextRouter } from 'next/router';
 import { createRouter } from 'next/router';
 import { Provider } from 'react-redux';
