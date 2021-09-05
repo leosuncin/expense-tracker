@@ -34,7 +34,7 @@ describe('[POST] /api/auth/login', () => {
     server.close();
   });
 
-  afterAll(() => disconnectDB());
+  afterAll(async () => disconnectDB());
 
   it('login with existing user', async () => {
     const body = {

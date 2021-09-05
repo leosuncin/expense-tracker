@@ -32,7 +32,7 @@ export async function databaseMiddleware(
   next: NextHandler,
 ) {
   try {
-    await connectDB();
+    await connectDB(process.env.MONGO_URL);
     next();
   } catch (error: unknown) {
     next(error);
