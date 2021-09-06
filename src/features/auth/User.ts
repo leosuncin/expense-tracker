@@ -1,6 +1,12 @@
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
-import type { Document, LeanDocument, ToObjectOptions, Types } from 'mongoose';
+import type {
+  Document,
+  LeanDocument,
+  Model,
+  ToObjectOptions,
+  Types,
+} from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
 import { transformToJSON } from '@app/utils/helpers';
@@ -14,10 +20,14 @@ export interface User {
   updatedAt: Date;
 }
 
-export interface UserDocument extends User, Document<Types.ObjectId> {
+export interface UserDocument extends Document<Types.ObjectId>, User {
+  createdAt: Date;
+  updatedAt: Date;
   checkPassword(plainPassword: string): Promise<boolean>;
   toJSON<Type extends UserJson>(options?: ToObjectOptions): Type;
 }
+
+export interface UserModel extends Model<UserDocument> {}
 
 export interface UserJson
   extends Omit<
@@ -29,7 +39,7 @@ export interface UserJson
   updatedAt: string;
 }
 
-const UserSchema = new mongoose.Schema<UserDocument>(
+const UserSchema = new mongoose.Schema<UserDocument, UserModel, User>(
   {
     name: {
       type: String,
@@ -59,7 +69,10 @@ const UserSchema = new mongoose.Schema<UserDocument>(
 );
 
 UserSchema.plugin(
-  uniqueValidator as Parameters<typeof UserSchema['plugin']>[0],
+  uniqueValidator as unknown as (
+    schema: typeof UserSchema,
+    options?: Record<string, unknown>,
+  ) => void,
   { message: 'is already taken' },
 );
 
