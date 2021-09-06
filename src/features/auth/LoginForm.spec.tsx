@@ -122,13 +122,12 @@ describe('<LoginForm />', () => {
     });
 
     expect(store.getState().auth).toMatchObject({
-      error: expect.any(String),
+      error: expect.any(String) as string,
       isAuthenticated: false,
       isLoading: false,
     });
     expect(screen.getByRole('alert')).toHaveTextContent(
-      // @ts-expect-error
-      store.getState().auth.error.trim(),
+      store.getState().auth.error!.trim(),
     );
   });
 });

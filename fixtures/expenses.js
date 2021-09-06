@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/numeric-separators-style */
 const { ObjectID } = require('mongodb');
 const faker = require('faker');
 

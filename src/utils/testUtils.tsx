@@ -5,7 +5,7 @@ import { render } from '@testing-library/react';
 import { ConnectedRouter } from 'connected-next-router';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import cookie from 'cookie';
-import { seed } from 'faker';
+import faker from 'faker';
 import * as fc from 'fast-check';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import createStore from 'iron-store';
@@ -113,13 +113,18 @@ export async function createCookieFor(
   return cookie.serialize(cookieName, await store.seal(), cookieOptions);
 }
 
-export const fakerArbitrary = (fakerGenerator: CallableFunction) =>
-  fc
+export function fakerArbitrary<Generator extends (...args: any) => any>(
+  fakerGenerator: Generator,
+): fc.Arbitrary<ReturnType<Generator>> {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  return fc
     .integer()
     .noBias()
     .noShrink()
     .map((value) => {
-      seed(value);
+      faker.seed(value);
 
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return fakerGenerator();
     });
+}

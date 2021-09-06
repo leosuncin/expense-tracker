@@ -8,6 +8,7 @@ import { disconnectDB } from '@app/app/db';
 import { registerFactory } from '@app/features/auth/authFactories';
 import type { UserJson } from '@app/features/auth/User';
 import registerHandler from '@app/pages/api/auth/register';
+import type { ErrorResponse } from '@app/utils/middleware';
 import { createServer } from '@app/utils/testUtils';
 
 jest.setTimeout(10e3);
@@ -45,16 +46,16 @@ describe('[POST] /api/auth/register', () => {
       .expect('Content-Type', /json/);
 
     expect(result.body).toMatchObject<UserJson>({
-      id: expect.stringMatching(/[\da-f]{24}/),
+      id: expect.stringMatching(/[\da-f]{24}/) as string,
       name: body.name,
       email: body.email,
       isAdmin: false,
       createdAt: expect.stringMatching(
         /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/,
-      ),
+      ) as string,
       updatedAt: expect.stringMatching(
         /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/,
-      ),
+      ) as string,
     });
   });
 
@@ -76,12 +77,12 @@ describe('[POST] /api/auth/register', () => {
       .expect(StatusCodes.UNPROCESSABLE_ENTITY)
       .expect('Content-Type', /json/);
 
-    expect(result.body).toMatchObject({
+    expect(result.body).toMatchObject<ErrorResponse>({
       errors: expect.arrayContaining([
         expect.stringMatching(/name/i),
         expect.stringMatching(/email/i),
         expect.stringMatching(/password/i),
-      ]),
+      ]) as string[],
       message: 'Validation error',
       statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
     });

@@ -1,4 +1,4 @@
-import http from 'http';
+import type { Server } from 'http';
 
 import users from 'fixtures/users.js';
 import { StatusCodes } from 'http-status-codes';
@@ -11,29 +11,32 @@ import type { ExpenseJson } from '@app/features/expenses/Expense';
 import { createExpenseFactory } from '@app/features/expenses/expenseFactories';
 import type { CreateExpense } from '@app/features/expenses/expenseSchemas';
 import expensesHandler from '@app/pages/api/expenses/[[...id]]';
+import type { ErrorResponse } from '@app/utils/middleware';
 import { createCookieFor, createServer } from '@app/utils/testUtils';
 
 jest.setTimeout(10e3);
 const fixtures = new Fixtures({ mute: true, filter: 'expenses.*' });
 const expenseMatcher = (data?: Partial<CreateExpense>): ExpenseJson => ({
-  id: expect.stringMatching(/[\da-f]{24}/),
-  name: data?.name ?? expect.any(String),
-  amount: data?.amount ?? expect.any(Number),
-  description: data?.description ?? expect.any(String),
+  id: expect.stringMatching(/[\da-f]{24}/) as string,
+  name: data?.name ?? (expect.any(String) as string),
+  amount: data?.amount ?? (expect.any(Number) as number),
+  description: data?.description ?? (expect.any(String) as string),
   author: expect.stringMatching(
     /6083bb0dadd37b9dbd7c45da|6085f5ac58dad1da02aa9fe3/,
-  ),
-  date: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/),
+  ) as string,
+  date: expect.stringMatching(
+    /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/,
+  ) as string,
   createdAt: expect.stringMatching(
     /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/,
-  ),
+  ) as string,
   updatedAt: expect.stringMatching(
     /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z/,
-  ),
+  ) as string,
 });
 
 describe('/api/expenses', () => {
-  let server: http.Server;
+  let server: Server;
   let cookie: string;
   let agent: SuperAgentTest;
 
@@ -90,10 +93,10 @@ describe('/api/expenses', () => {
       .send(body)
       .expect(StatusCodes.UNPROCESSABLE_ENTITY)
       .expect((response) => {
-        expect(response.body).toMatchObject({
+        expect(response.body).toMatchObject<ErrorResponse>({
           message: 'Validation error',
           statusCode: StatusCodes.UNPROCESSABLE_ENTITY,
-          errors: expect.any(Array),
+          errors: expect.any(Array) as string[],
         });
       });
   });
@@ -150,7 +153,7 @@ describe('/api/expenses', () => {
       name: 'Money goes brrr',
     },
     {
-      amount: 999999.09,
+      amount: 999_999.09,
     },
     {
       description: 'Yes',

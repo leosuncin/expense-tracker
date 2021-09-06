@@ -20,7 +20,7 @@ export const registerUser: AsyncThunkPayloadCreator<
   });
 
   if (response.status === 409 || response.status === 422) {
-    const error: ErrorResponse = await response.json();
+    const error = (await response.json()) as ErrorResponse;
 
     return thunkApi.rejectWithValue(error.message);
   }
@@ -44,7 +44,7 @@ export const loginUser: AsyncThunkPayloadCreator<
   });
 
   if (response.status === 401 || response.status === 422) {
-    const error: ErrorResponse = await response.json();
+    const error = (await response.json()) as ErrorResponse;
 
     return thunkApi.rejectWithValue(error.message);
   }

@@ -20,6 +20,7 @@ describe('Expense tracker', () => {
 
   context('Authenticated', () => {
     beforeEach(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
       cy.login('armando@martin.me', 'reversion-rockband-bonding');
       cy.visit('/');
     });

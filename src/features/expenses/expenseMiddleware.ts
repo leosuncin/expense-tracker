@@ -39,6 +39,7 @@ export async function verifyWriteConditionsMiddleware(
   }
 
   // @ts-expect-error `author` is not populated
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   if (expense.author.toHexString() !== author.id && !author.isAdmin) {
     const action =
       request.method === 'DELETE'

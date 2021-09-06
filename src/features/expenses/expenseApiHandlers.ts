@@ -62,10 +62,9 @@ export const updateExpenseHandler: ApiHandler<UpdateExpense, ExpenseJson> =
 
 export const removeExpenseHandler: ApiHandler = async (request, response) => {
   const expenseId = request.params.id;
-  // @ts-expect-error it exists, is checked in the middleware
-  const expense: Expense = await Expense.findById(expenseId);
+  const expense = await Expense.findById(expenseId);
 
-  await expense.remove();
+  await expense!.remove();
 
   response.status(StatusCodes.NO_CONTENT).send(Buffer.alloc(0));
 };
