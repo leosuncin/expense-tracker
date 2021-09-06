@@ -25,7 +25,7 @@ export const createExpense: AsyncThunkPayloadCreator<
   });
 
   if (response.status >= 400 && response.status < 500) {
-    const error: ErrorResponse = await response.json();
+    const error = (await response.json()) as ErrorResponse;
 
     if (response.status === 401) {
       thunkApi.dispatch(setAuthError(error.message));
@@ -46,7 +46,7 @@ export const findExpenses: AsyncThunkPayloadCreator<
   const response = await fetch('/api/expenses');
 
   if (response.status >= 400 && response.status < 500) {
-    const error: ErrorResponse = await response.json();
+    const error = (await response.json()) as ErrorResponse;
 
     if (response.status === 401) {
       thunkApi.dispatch(setAuthError(error.message));
@@ -71,7 +71,7 @@ export const getExpense: AsyncThunkPayloadCreator<
   const response = await fetch(`/api/expenses/${id}`);
 
   if (response.status >= 400 && response.status < 500) {
-    const error: ErrorResponse = await response.json();
+    const error = (await response.json()) as ErrorResponse;
 
     if (response.status === 401 || response.status === 403) {
       thunkApi.dispatch(setAuthError(error.message));
@@ -98,7 +98,7 @@ export const updateExpense: AsyncThunkPayloadCreator<
   });
 
   if (response.status >= 400 && response.status < 500) {
-    const error: ErrorResponse = await response.json();
+    const error = (await response.json()) as ErrorResponse;
 
     if (response.status === 401 || response.status === 403) {
       thunkApi.dispatch(setAuthError(error.message));
@@ -119,7 +119,7 @@ export const removeExpense: AsyncThunkPayloadCreator<
   const response = await fetch(`/api/expenses/${id}`, { method: 'DELETE' });
 
   if (response.status >= 400 && response.status < 500) {
-    const error: ErrorResponse = await response.json();
+    const error = (await response.json()) as ErrorResponse;
 
     if (response.status === 401 || response.status === 403) {
       thunkApi.dispatch(setAuthError(error.message));

@@ -10,6 +10,7 @@ export function centsToDollars(cents: number) {
 }
 
 export function transformToJSON(_: unknown, returned: Record<string, any>) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
   returned.id = returned._id.toHexString();
 
   if (returned.author instanceof ObjectID)

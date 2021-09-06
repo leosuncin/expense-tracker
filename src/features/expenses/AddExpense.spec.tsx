@@ -22,7 +22,7 @@ const oldWindowLocation = window.location;
 
 describe('<AddExpense />', () => {
   beforeEach(() => {
-    // @ts-expect-error
+    // @ts-expect-error Don't worry, be happy
     delete window.location;
 
     window.location = Object.defineProperties(
@@ -102,8 +102,8 @@ describe('<AddExpense />', () => {
     });
 
     expect(store.getState().expenses).toMatchObject({
-      entities: expect.any(Object),
-      ids: expect.any(Array),
+      entities: expect.any(Object) as Record<string, unknown>,
+      ids: expect.any(Array) as string[],
       isLoading: false,
     });
     expect(selectExpenses(store.getState())).toMatchObject([

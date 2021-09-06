@@ -22,6 +22,7 @@ module.exports = (
 ) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-require-imports
   require('@cypress/code-coverage/task')(on, config);
   // Add other tasks to be registered here
   on('task', {

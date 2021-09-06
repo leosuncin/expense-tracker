@@ -10,14 +10,12 @@ import { setExpenses } from '@app/features/expenses/expenseSlice';
 import ExpensesTable from '@app/features/expenses/ExpensesTable';
 import { ApiRequest, sessionOptions } from '@app/utils/middleware';
 
-const IndexPage: NextPage = () => {
-  return (
-    <>
-      <AddExpense />
-      <ExpensesTable />
-    </>
-  );
-};
+const IndexPage: NextPage = () => (
+  <>
+    <AddExpense />
+    <ExpensesTable />
+  </>
+);
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) =>

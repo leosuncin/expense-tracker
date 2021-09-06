@@ -42,6 +42,11 @@
         "ignore": ["next-env.d.ts", "__coverage__.ts", "jest-mongodb-config.js"]
       }
     ],
-    "unicorn/no-array-reduce": "off"
-  }
+    "unicorn/no-array-reduce": "off",
+    "unicorn/prefer-node-protocol": "off",
+    "unicorn/prefer-module": "off",
+    "node/prefer-global/process": "off",
+    "node/prefer-global/buffer": "off"
+  },
+  "ignores": ["next-env.d.ts"]
 }

@@ -16,9 +16,7 @@
 import '@testing-library/cypress/add-commands';
 import '@cypress/code-coverage/support';
 
-Cypress.Commands.add('customCommand', () => {
-  return cy.wrap(42);
-});
+Cypress.Commands.add('customCommand', () => cy.wrap(42));
 
 Cypress.Commands.add('login', (email: string, password: string) => {
   let user: Record<string, unknown>;
@@ -36,7 +34,7 @@ Cypress.Commands.add('login', (email: string, password: string) => {
   return cy
     .clearCookies()
     .request('POST', '/api/auth/login', { email, password })
-    .then((response: Cypress.Response) => {
+    .then((response: Cypress.Response<Record<string, unknown>>) => {
       user = response.body;
       status = response.status;
       log.end();
