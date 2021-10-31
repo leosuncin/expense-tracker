@@ -82,7 +82,7 @@
     "eslint-plugin-deprecation": "^1.2.0",
     "eslint-plugin-jest": "^24.3.5",
     "eslint-plugin-jest-formatting": "^3.0.0",
-    "eslint-plugin-testing-library": "^4.1.0",
+    "eslint-plugin-testing-library": "^5.0.0",
     "factory.ts": "^0.5.0",
     "faker": "^5.5.0",
     "fast-check": "^2.14.0",
