@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^15.0.0",
-    "@commitlint/config-conventional": "^14.1.0",
+    "@commitlint/config-conventional": "^15.0.0",
     "@cypress/code-coverage": "^3.9.4",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@shelf/jest-mongodb": "^2.0.1",
