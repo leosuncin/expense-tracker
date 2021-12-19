@@ -1902,9 +1902,9 @@
     reselect "^4.0.0"
 
 "@shelf/jest-mongodb@^2.0.1":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@shelf/jest-mongodb/-/jest-mongodb-2.1.0.tgz#2179b53b8e01dde1315b9f333cc2945dd89a6940"
-  integrity sha512-sSSS/QnU8sKJUpVqKvcR4CR5ca8Mb1MpQY49H/we9bzyg/UsBhEcVehwaRSEZ13dOd8orGrNa8OW8438l2Gt1g==
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@shelf/jest-mongodb/-/jest-mongodb-2.1.1.tgz#df3e6164decd9f9e0e329a801c6f84c777cbdb47"
+  integrity sha512-I7/TKFgFnnBeUVV/I2zKx6pPjaQ/oGW43PwjCk0j4YoAc5N/ypdgdTYqLsdbZENGnUteGH6TFsHKwSBb87zFUA==
   dependencies:
     debug "4.3.2"
     mongodb-memory-server "7.3.6"
