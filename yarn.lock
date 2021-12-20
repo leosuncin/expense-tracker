@@ -1613,9 +1613,9 @@
     resolve-from "^5.0.0"
 
 "@istanbuljs/nyc-config-typescript@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@istanbuljs/nyc-config-typescript/-/nyc-config-typescript-1.0.1.tgz#55172f5663b3635586add21b14d42ca94a163d58"
-  integrity sha512-/gz6LgVpky205LuoOfwEZmnUtaSmdk0QIMcNFj9OvxhiMhPpKftMgZmGN7jNj7jR+lr8IB1Yks3QSSSNSxfoaQ==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@istanbuljs/nyc-config-typescript/-/nyc-config-typescript-1.0.2.tgz#1f5235b28540a07219ae0dd42014912a0b19cf89"
+  integrity sha512-iKGIyMoyJuFnJRSVTZ78POIRvNnwZaWIf8vG4ZS3rQq58MMDrqEX2nnzx0R28V2X8JvmKYiqY9FP2hlJsm8A0w==
   dependencies:
     "@istanbuljs/schema" "^0.1.2"
 
@@ -2205,10 +2205,10 @@
   dependencies:
     "@types/mongodb" "^3.6.20"
 
-"@types/node@*", "@types/node@^16.0.0":
-  version "16.11.10"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.10.tgz#2e3ad0a680d96367103d3e670d41c2fed3da61ae"
-  integrity sha512-3aRnHa1KlOEEhJ6+CvyHKK5vE9BcLGjtUpwvqYLRvYNQKMfabu3BwfJaA/SLW8dxe28LsNDjtHwePTuzn3gmOA==
+"@types/node@*", "@types/node@^17.0.1":
+  version "17.0.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.1.tgz#88d501e84b6185f6489ecee4ba9e8fcec7f29bb2"
+  integrity sha512-NXKvBVUzIbs6ylBwmOwHFkZS2EXCcjnqr8ZCRNaXBkHAf+3mn/rPcJxwrzuc6movh8fxQAsUUfYklJ/EG+hZqQ==
 
 "@types/node@^14.14.31":
   version "14.17.1"
