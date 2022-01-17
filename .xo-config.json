@@ -46,7 +46,18 @@
     "unicorn/prefer-node-protocol": "off",
     "unicorn/prefer-module": "off",
     "node/prefer-global/process": "off",
-    "node/prefer-global/buffer": "off"
+    "node/prefer-global/buffer": "off",
+    "@typescript-eslint/naming-convention": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
   },
   "ignores": ["next-env.d.ts"]
 }
