@@ -1,6 +1,6 @@
 import type { Server } from 'http';
 
-import users from 'fixtures/users.js';
+import users from 'fixtures/users';
 import { StatusCodes } from 'http-status-codes';
 import Fixtures from 'node-mongodb-fixtures';
 import supertest, { SuperAgentTest } from 'supertest';
