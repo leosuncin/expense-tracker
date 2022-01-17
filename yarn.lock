@@ -3797,9 +3797,9 @@ confusing-browser-globals@1.0.10:
   integrity sha512-gNld/3lySHwuhaVluJUKLePYirM3QNCKzVxqAdhJII9/WXKVX5PURzMVJspS1jTslSqjeuG4KMVTSouit5YPHA==
 
 connected-next-router@^4.0.0:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/connected-next-router/-/connected-next-router-4.0.1.tgz#50f9a2a1763cb2e19864e3b92a491cf98ced94fd"
-  integrity sha512-Jggb3edu2rijGvYnYO+agiyggpoTFlmgL6Hp9OLEGT7OYWGtnGrHR+c13TYG9eARHpo7FLoRDcCdhtdEhMeSog==
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/connected-next-router/-/connected-next-router-4.1.0.tgz#e8f8b5ff8f6933e8429c9ec765cef024f1d34c23"
+  integrity sha512-AGvcnkaoFGgioGTCN6ffCCHl8v0EBJ9FvP30b74tSZXp1FFk6399xkaKsxxATFJ0g09iBYSNjhe3Kf2vQSG1aw==
 
 console-browserify@^1.1.0:
   version "1.2.0"
