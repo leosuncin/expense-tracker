@@ -2234,9 +2234,9 @@
     redux "^4.0.0"
 
 "@types/react@*", "@types/react@^17.0.0":
-  version "17.0.37"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.37.tgz#6884d0aa402605935c397ae689deed115caad959"
-  integrity sha512-2FS1oTqBGcH/s0E+CjrCCR9+JMpsu9b69RTFO+40ua43ZqP5MmQ4iUde/dMjWR909KxZwmOQIFq6AV6NjEG5xg==
+  version "17.0.38"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.38.tgz#f24249fefd89357d5fa71f739a686b8d7c7202bd"
+  integrity sha512-SI92X1IA+FMnP3qM5m4QReluXzhcmovhZnLNm3pyeQlooi02qI7sLiepEYqT678uNiyc25XfCqxREFpy3W7YhQ==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -8888,9 +8888,9 @@ react-dom@^17.0.0:
     scheduler "^0.20.2"
 
 react-hook-form@^7.2.0:
-  version "7.22.2"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.22.2.tgz#aa66fd75cad858049739770341079d9787683c6b"
-  integrity sha512-gdz5dhdOPfd04uj00a+Fw8JHA4m6evn3RQeVEQSZCOrmRC+LqaTwsR97cQfj5vu3yCXhSETrUtiDoXJojW/KGg==
+  version "7.24.0"
+  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.24.0.tgz#d4d25eb7df6d36753ebb8b37d35cb36458fc5d79"
+  integrity sha512-N2GT4wmdcgP5bw72q/a+vKUBqy14iNQz+4vaFBJLz9Bw+KNYKUjTzcV/kHfOYbcboMeHP2zgf4i4wTmAwrXssg==
 
 react-is@17.0.2, react-is@^17.0.1, react-is@^17.0.2:
   version "17.0.2"
