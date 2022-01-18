@@ -7,7 +7,6 @@ import {
   ThunkAction,
   ThunkDispatch,
   configureStore,
-  getDefaultMiddleware,
 } from '@reduxjs/toolkit';
 import {
   createRouterMiddleware,
@@ -35,7 +34,10 @@ export function makeStore(
       router: routerReducer,
       expenses: expensesReducer,
     },
-    middleware: [...getDefaultMiddleware(), routerMiddleware],
+    middleware: (getDefaultMiddleware) => [
+      ...getDefaultMiddleware(),
+      routerMiddleware,
+    ],
     preloadedState,
   });
 }
