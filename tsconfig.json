@@ -20,7 +20,8 @@
     "baseUrl": ".",
     "paths": {
       "@app/*": ["src/*"]
-    }
+    },
+    "incremental": true
   },
   "exclude": ["node_modules", "cypress"],
   "include": ["**/*.ts", "**/*.tsx", "cypress/cypress.d.ts"]
