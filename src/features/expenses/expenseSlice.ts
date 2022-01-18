@@ -59,7 +59,7 @@ const expensesSlice = createSlice({
     function buildErrorState(
       state: ExpenseState,
       action: PayloadAction<
-        ErrorResponse | undefined,
+        unknown,
         string,
         {
           arg: unknown;
@@ -73,8 +73,8 @@ const expensesSlice = createSlice({
       >,
     ) {
       if (action.meta.rejectedWithValue) {
-        state.error = action.payload?.message;
-        state.errors = action.payload?.errors;
+        state.error = (action.payload as ErrorResponse).message;
+        state.errors = (action.payload as ErrorResponse).errors;
       } else if (action.error) {
         state.error = action.error.message;
       }

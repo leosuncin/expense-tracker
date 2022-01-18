@@ -66,7 +66,7 @@ const authSlice = createSlice({
     function buildErrorState(
       _: AuthState,
       action: PayloadAction<
-        string | undefined,
+        unknown,
         string,
         {
           arg: unknown;
@@ -79,19 +79,14 @@ const authSlice = createSlice({
         SerializedError
       >,
     ) {
-      if (action.meta.rejectedWithValue)
-        return {
-          isAuthenticated: false,
-          isLoading: false,
-          error: action.payload,
-        };
-
-      if (action.error)
-        return {
-          isAuthenticated: false,
-          isLoading: false,
-          error: action.error.message,
-        };
+      return {
+        isAuthenticated: false,
+        isLoading: false,
+        error:
+          typeof action.payload === 'string'
+            ? action.payload
+            : action.error.message,
+      };
     }
 
     function buildLogoutState() {
