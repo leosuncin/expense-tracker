@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install dependencies 📦
         uses: bahmutov/npm-install@v1
       - name: Check types 🧩
@@ -21,7 +21,7 @@ jobs:
       CYPRESS_INSTALL_BINARY: 0
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Cache MongoDB memory server binary 📦
         uses: actions/cache@v3
         with:
@@ -52,7 +52,7 @@ jobs:
       MONGOMS_DISABLE_POSTINSTALL: 1
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Cache Next.js build
         uses: actions/cache@v3
         with:
