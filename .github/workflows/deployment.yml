@@ -27,7 +27,7 @@ jobs:
           browser: ${{ matrix.browser }}
           env: coverage=false,env=${{ github.event.deployment_status.environment }}
       - name: Upload screenshots and videos on error 📦
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: screenshots+videos
