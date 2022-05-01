@@ -23,7 +23,7 @@ jobs:
       - name: Checkout 🛎
         uses: actions/checkout@v2
       - name: Cache MongoDB memory server binary 📦
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: |
             ~/.cache/mongodb-binaries
@@ -54,7 +54,7 @@ jobs:
       - name: Checkout 🛎
         uses: actions/checkout@v2
       - name: Cache Next.js build
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: .next
           key: ${{ runner.os }}-next-build-${{ hashFiles('**/next.config.js') }}
