@@ -5012,12 +5012,12 @@ faker@^5.5.0:
   resolved "https://registry.yarnpkg.com/faker/-/faker-5.5.3.tgz#c57974ee484431b25205c2c8dc09fda861e51e0e"
   integrity sha512-wLTv2a28wjUyWkbnX7u/ABZBkUkIF2fCd73V6P2oFqEGEktDfzWx4UxrSqtPRw0xPRAcjeAOIiJWqZm3pP4u3g==
 
-fast-check@^2.14.0:
-  version "2.21.0"
-  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-2.21.0.tgz#0d2e20bc65343ee67ec0f58373358140c08a1217"
-  integrity sha512-hkTRytqMceXfnSwPnryIqKkxKJjfcvtVqJrWRb8tgmfyUsGajIgQqDFxCJ+As+l9VLUCcmx6XIYoXeQe2Ih0UA==
+fast-check@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/fast-check/-/fast-check-3.4.0.tgz#3f0af799e396a75f514900e6db8ab72f94a41e38"
+  integrity sha512-EWeu5YRzLuf5/PjLu3g6p823B4fOsGc/C8abGfEW4ZJfz1mf670TsP8CxeOuICESO88qu7YoPwKRZ2mTMRxwzg==
   dependencies:
-    pure-rand "^5.0.0"
+    pure-rand "^5.0.2"
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
@@ -8461,10 +8461,10 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-pure-rand@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/pure-rand/-/pure-rand-5.0.0.tgz#87f5bdabeadbd8904e316913a5c0b8caac517b37"
-  integrity sha512-lD2/y78q+7HqBx2SaT6OT4UcwtvXNRfEpzYEzl0EQ+9gZq2Qi3fa0HDnYPeqQwhlHJFBUhT7AO3mLU3+8bynHA==
+pure-rand@^5.0.2:
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/pure-rand/-/pure-rand-5.0.5.tgz#bda2a7f6a1fc0f284d78d78ca5902f26f2ad35cf"
+  integrity sha512-BwQpbqxSCBJVpamI6ydzcKqyFmnd5msMWUGvzXLm1aXvusbbgkbOto/EUPM00hjveJEaJtdbhUjKSzWRhQVkaw==
 
 q@^1.5.1:
   version "1.5.1"
