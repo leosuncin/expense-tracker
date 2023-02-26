@@ -7551,9 +7551,9 @@ mongoose-unique-validator@^2.0.3:
     lodash.get "^4.0.2"
 
 mongoose@*, mongoose@^5.12.5:
-  version "5.13.14"
-  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.13.14.tgz#ffc9704bd022dd018fbddcbe27dc802c77719fb4"
-  integrity sha512-j+BlQjjxgZg0iWn42kLeZTB91OejcxWpY2Z50bsZTiKJ7HHcEtcY21Godw496GMkBqJMTzmW7G/kZ04mW+Cb7Q==
+  version "5.13.16"
+  resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.13.16.tgz#df317c87de6762ae5dc0c363aff9f8e357074ebb"
+  integrity sha512-kBNB+BfaQjn3Jjh1SfdZZub70pde9dI0sA8VN6AnnCOeK4TzbLDyB0lBmPBOajppm6U9orde5YfTRyyVa1U45w==
   dependencies:
     "@types/bson" "1.x || 4.0.x"
     "@types/mongodb" "^3.5.27"
